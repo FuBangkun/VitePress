@@ -11,6 +11,8 @@
   "license": "ISC",
   "packageManager": "pnpm@10.30.3",
   "devDependencies": {
-    "vitepress": "2.0.0-alpha.16"
+    "vitepress": "2.0.0-alpha.16",
+    "vitepress-plugin-comment-with-giscus": "^1.1.15",
+    "vitepress-sidebar": "^1.33.1"
   }
 }

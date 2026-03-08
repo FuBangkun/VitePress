@@ -21,7 +21,9 @@ Arch Linux 的ISO文件可以被制作成多种类型安装介质，如 U 盘、
 可以考虑使用 Rufus 制作安装介质。
 
 ## 启动到 live 环境
-> **注意：**Arch Linux 安装镜像不支持 UEFI 安全启动（Secure Boot）功能。如果要引导安装介质，需要禁用安全启动。如果需要，可在完成安装后重新配置。
+:::warning
+Arch Linux 安装镜像不支持 UEFI 安全启动（Secure Boot）功能。如果要引导安装介质，需要禁用安全启动。如果需要，可在完成安装后重新配置。
+:::
 
 选择从带有 Arch 安装文件的介质启动，通常是需要在计算机启动加电自检时快速按下某个热键。启动时的画面也可能会有提示，详情请参考自己的计算机的说明书或主板说明书。
 
@@ -86,7 +88,9 @@ cat /sys/firmware/efi/fw_platform_size
     ping ping.archlinux.org
     ```
 
-> **注意：**默认情况下，安装映像在启动时已经预先配置好并启用了 systemd-networkd、systemd-resolved、iwd 和 ModemManager。但在已经安装完成了的系统之中并非如此。
+:::warning
+默认情况下，安装映像在启动时已经预先配置好并启用了 systemd-networkd、systemd-resolved、iwd 和 ModemManager。但在已经安装完成了的系统之中并非如此。
+:::
 
 ## 创建硬盘分区
 查看当前分区情况
@@ -188,7 +192,9 @@ mount /dev/vg/lv /mnt
 mount -m /dev/nvme0n1p1 /mnt/boot
 ```
 
-> **注意：**请注意必须安装`lvm2`包并在mkinitcpio.conf的HOOKS里添加`lvm2`，否则无法正常启动。稍后会提到具体操作。
+:::warning
+请注意必须安装`lvm2`包并在mkinitcpio.conf的HOOKS里添加`lvm2`，否则无法正常启动。稍后会提到具体操作。
+:::
 
 ## ArchISO包管理
 
@@ -495,7 +501,9 @@ source /usr/share/autojump/autojump.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 ```
 
-> **注意：**你可能需要将在 ~/.bash_profile 所做的配置复制到 ~/.zsh_profile，将在 ~/.bashrc 所做的配置复制到 ~/.zshrc。
+:::warning
+你可能需要将在 ~/.bash_profile 所做的配置复制到 ~/.zsh_profile，将在 ~/.bashrc 所做的配置复制到 ~/.zshrc。
+:::
 
 #### 安装p10k
 ```bash

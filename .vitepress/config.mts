@@ -1,45 +1,45 @@
 import { defineConfig } from 'vitepress'
+import { generateSidebar } from "vitepress-sidebar";
 
 export default defineConfig({
   title: "付邦坤的网站",
   description: "A VitePress Site",
+  lang: "zh-CN",
+  locales: {
+    "/": {
+      label: "简体中文",
+      lang: "zh-CN",
+    },
+  },
   themeConfig: {
+    darkModeSwitchLabel: "切换主题",
+
+    docFooter: {
+      prev: "上一篇",
+      next: "下一篇",
+    },
+
+    outlineTitle: "页面内容",
+
+    sidebarMenuLabel: "菜单",
+
     nav: [
       { text: '首页', link: '/' },
-      { text: '开发环境', link: '/env/env' },
-      { text: 'Git', link: '/git/git' },
-      { text: 'Linux', link: '/linux/linux' }
+      { text: '开发环境', link: '/env/index' },
+      { text: 'Git', link: '/git/index' },
+      { text: 'Linux', link: '/Linux/index' }
     ],
 
-    sidebar: [
-      {
-        text: '开发环境',
-        items: [
-          { text: '开发环境', link: '/env/env' },
-          { text: '集成开发环境', link: '/env/ide' },
-          { text: 'C/C++', link: '/env/cpp' },
-          { text: 'Python', link: '/env/python' },
-          { text: 'Rust', link: '/env/rust' },
-          { text: 'Java', link: '/env/java' },
-          { text: 'NodeJS', link: '/env/nodejs' },
-        ]
-      },
-      {
-        text: 'Git',
-        items: [
-          { text: 'Git', link: '/git/git' },
-          { text: 'GitHub', link: '/git/github' }
-        ]
-      },
-      {
-        text: 'Linux',
-        items: [
-          { text: 'Linux', link: '/linux/linux' },
-          { text: 'Arch Linux安装', link: '/linux/arch-install' },
-          { text: '在Arch Linux上运行游戏', link: '/linux/game' }
-        ]
-      }
-    ],
+    sidebar: generateSidebar({
+      documentRootPath: "/",
+      useTitleFromFileHeading: true,
+      useFolderTitleFromIndexFile: true,
+      useFolderLinkFromIndexFile: true,
+      sortMenusByFrontmatterOrder: true,
+      sortFolderTo: "top",
+      useTitleFromFrontmatter: true,
+      collapsed: false,
+    }),
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/fubangkun/vitepress' }
@@ -77,9 +77,15 @@ export default defineConfig({
     },
 
     footer: {
-      message: 'Released under the GPL v3 License.',
-      copyright: 'Copyright © 2026 Fu Bangkun'
-    }
+      message: '根据 GPL v3 许可证发布。',
+      copyright: 'Copyright ©2026 付邦坤'
+    },
+
+    notFound: {
+      title: "页面未找到",
+      quote: "但如果你不改变方向，继续寻找，你可能会最终走到你想要的方向。",
+      linkText: "返回首页",
+    },
   },
 
   lastUpdated: true

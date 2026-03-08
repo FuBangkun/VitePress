@@ -8,13 +8,13 @@ hero:
   actions:
     - theme: brand
       text: 开发环境
-      link: /env/env
+      link: /env/index
     - theme: brand
       text: Git
-      link: /git/git
+      link: /git/index
     - theme: brand
       text: Linux
-      link: /linux/linux
+      link: /linux/index
     # - theme: alt
     #   text: API Examples
     #   link: /api-examples

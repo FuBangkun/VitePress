@@ -1,3 +1,6 @@
+---
+title: Git
+---
 # Git
 
 ## 安装Git
@@ -38,7 +41,9 @@ cd 文件夹路径（如cd Desktop/GitTest，Windows需注意路径分隔符为/
 
 3. 验证添加：输入命令「git status」，提示「Changes to be committed:」，且文件名为绿色，即为添加成功。
 
-> **提示：**如果仓库包含.gitignore文件，那么其指定的文件或文件夹不会被添加，可以避免冗余文件（如临时文件、依赖包、IDE配置文件）占用仓库空间，同时保持仓库整洁。
+:::info
+如果仓库包含.gitignore文件，那么其指定的文件或文件夹不会被添加，可以避免冗余文件（如临时文件、依赖包、IDE配置文件）占用仓库空间，同时保持仓库整洁。
+:::
 
 ### 提交文件到仓库
 
@@ -46,7 +51,9 @@ cd 文件夹路径（如cd Desktop/GitTest，Windows需注意路径分隔符为/
 
 2. 操作反馈：命令行提示「1 file changed, 0 insertions(+), 0 deletions(-)」，表示提交成功，此时文件修改已记录到本地仓库。
 
-> **注意：**每次修改文件后，需重复「git add → git commit」步骤，才能记录版本。
+:::info
+每次修改文件后，需重复「git add → git commit」步骤，才能记录版本。
+:::
 
 ### 查看提交历史
 

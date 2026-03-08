@@ -26,7 +26,9 @@ conda clean -i
 ### 设置环境变量
 在系统环境变量`Path`里添加`C:\Dev\Runtimes\miniconda3`、`C:\Dev\Runtimes\miniconda3\Scripts`和`C:\Dev\Runtimes\miniconda3\Library\bin`。
 
-> **注意：**如果你也安装了Msys2，请将Msys2的环境变量放在Miniconda3后面，否则将会使用Msys2的Python。
+:::warning
+如果你也安装了Msys2，请将Msys2的环境变量放在Miniconda3后面，否则将会使用Msys2的Python。
+:::
 
 ### 检查安装
 ```powershell
