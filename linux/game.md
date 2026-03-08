@@ -1,15 +1,12 @@
 # 游戏设置
-
 请先安装显卡驱动，开启multilib库。如果你完全按照`Arch Linux安装`教程，你已经安装过了。
 
 ## Steam
-
 ```bash
 sudo pacman -S steam
 ```
 
 ## 米哈游
-
 别问我为什么没原神。
 
 安装Proton
@@ -29,11 +26,9 @@ setup_dxvk install
 使用我打包的[脚本](https://www.lanzoui.com/iBbAa3k2bozg)，注意改一下游戏路径。你还可以将脚本设成快捷方式，图标已附带。
 
 ## Waydroid
-
 一款Wayland上的安卓模拟器。
 
 ### 安装Waydroid
-
 ```bash
 pacman -S waydroid archlinuxcn/waydroid-image
 sudo waydroid init
@@ -42,7 +37,6 @@ waydroid session start
 ```
 
 ### 安装Arm翻译层
-
 ```bash
 git clone https://github.dpik.top/https://github.com/casualsnek/waydroid_script.git
 cd waydroid_script
@@ -52,7 +46,6 @@ sudo venv/bin/python3 main.py install libhoudini
 ```
 
 ### 解决网络问题
-
 ```bash
 sudo waydroid shell
 settings put global captive_portal_mode 0
@@ -61,7 +54,6 @@ exit
 ```
 
 ## 游戏模式
-
 ```bash
 sudo pacman -S gamemode lib32-gamemode
 groupadd gamemode
@@ -69,7 +61,6 @@ gpasswd -a [用户名] gamemode
 ```
 
 ### 使用NVIDIA独显运行
-
 添加环境变量
 
 ```ini

@@ -6,10 +6,31 @@ export default defineConfig({
   themeConfig: {
     nav: [
       { text: '首页', link: '/' },
+      { text: '开发环境', link: '/env/env' },
+      { text: 'Git', link: '/git/git' },
       { text: 'Linux', link: '/linux/linux' }
     ],
 
     sidebar: [
+      {
+        text: '开发环境',
+        items: [
+          { text: '开发环境', link: '/env/env' },
+          { text: '集成开发环境', link: '/env/ide' },
+          { text: 'C/C++', link: '/env/cpp' },
+          { text: 'Python', link: '/env/python' },
+          { text: 'Rust', link: '/env/rust' },
+          { text: 'Java', link: '/env/java' },
+          { text: 'NodeJS', link: '/env/nodejs' },
+        ]
+      },
+      {
+        text: 'Git',
+        items: [
+          { text: 'Git', link: '/git/git' },
+          { text: 'GitHub', link: '/git/github' }
+        ]
+      },
       {
         text: 'Linux',
         items: [

@@ -3,9 +3,15 @@ layout: home
 
 hero:
   name: "付邦坤的网站"
-  text: "A VitePress Site"
-  tagline: My great project tagline
+  text: "介绍"
+  tagline: 项目标语
   actions:
+    - theme: brand
+      text: 开发环境
+      link: /env/env
+    - theme: brand
+      text: Git
+      link: /git/git
     - theme: brand
       text: Linux
       link: /linux/linux
@@ -14,11 +20,11 @@ hero:
     #   link: /api-examples
 
 features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: 特征 A
+    details: 占位符
+  - title: 特征 B
+    details: 占位符
+  - title: 特征 C
+    details: 占位符
 ---
 
