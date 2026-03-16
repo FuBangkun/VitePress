@@ -2,7 +2,7 @@
 此教程使用 UEFI引导、GPT分区表、XFS格式、Linux Zen内核。
 
 ## 获取安装映像
-打开[下载](https://archlinux.org/download/)页面，推荐选择清华大学的镜像`tuna.tsinghua.edu.cn`，下载`archlinux-x86_64.iso`和`sha256sums.txt`。
+和[archlinux-x86_64.iso](https://mirrors.tuna.tsinghua.edu.cn/archlinux/iso/latest/archlinux-x86_64.iso)和[sha256sums.txt](https://mirrors.tuna.tsinghua.edu.cn/archlinux/iso/latest/sha256sums.txt)。
 
 ## 验证签名
 建议使用前先验证所下载文件的签名，特别是从 HTTP 镜像源/非官方镜像仓库下载的文件，因为 HTTP 连接一般来说容易遭到拦截而提供恶意文件，而非官方镜像仓库可能会对镜像的文件进行恶意修改。验证签名也能及时发现文件损坏。
@@ -287,6 +287,7 @@ nano /etc/locale.gen
 ```bash
 locale-gen
 echo LANG=zh_CN.UTF-8 > /etc/locale.conf
+echo 'KEYMAP=us' > /etc/vconsole.conf
 ```
 
 ### 配置计算机名称
@@ -386,7 +387,7 @@ esac
 `10`是多线程下载的线程数。
 
 ```bash
-$ chmod +x makepkg_proxy
+$ chmod +x ~/makepkg_proxy
 ```
 
 使脚本可运行。
@@ -431,7 +432,7 @@ registry = "sparse+https://mirrors.aliyun.com/crates.io-index/"
 #### 安装paru
 ```bash
 $ git clone https://aur.archlinux.org/paru.git ~/paru
-$ cd paru
+$ cd ~/paru
 $ makepkg -si
 ```
 
@@ -541,7 +542,6 @@ sudo systemctl enable gdm
 
 #### 显示管理器
 ```bash
-sudo pacman -S sddm
 sudo systemctl enable sddm
 ```
 
