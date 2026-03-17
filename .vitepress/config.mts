@@ -27,7 +27,7 @@ export default defineConfig({
       { text: '首页', link: '/' },
       { text: '开发环境', link: '/env/index' },
       { text: 'Git', link: '/git/index' },
-      { text: 'Linux', link: '/Linux/index' }
+      { text: 'Linux', link: '/linux/index' }
     ],
 
     sidebar: generateSidebar({

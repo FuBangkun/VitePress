@@ -3,21 +3,15 @@ layout: home
 
 hero:
   name: "付邦坤的网站"
-  text: "介绍"
-  tagline: 项目标语
+  text: "网站描述"
+  tagline: 网站标语
   actions:
     - theme: brand
-      text: 开发环境
+      text: 开始
       link: /env/index
-    - theme: brand
-      text: Git
-      link: /git/index
-    - theme: brand
-      text: Linux
-      link: /linux/index
-    # - theme: alt
-    #   text: API Examples
-    #   link: /api-examples
+    - theme: alt
+      text: 源代码
+      link: https://github.com/FuBangkun/VitePress
 
 features:
   - title: 特征 A

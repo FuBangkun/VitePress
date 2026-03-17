@@ -1,6 +1,6 @@
 # 集成开发环境
 ## Microsoft Visual Studio
-[下载Visual Studio Installer](https://visualstudio.microsoft.com/zh-hans/vs/)。
+下载[Visual Studio Installer](https://visualstudio.microsoft.com/zh-hans/vs/)。
 
 打开Visual Studio Installer选择自己需要的Visual Studio安装。
 
@@ -12,7 +12,7 @@
 需要自行添加桌面图标。
 
 ## Microsoft Visual Studio Code
-[下载VSCode](https://code.visualstudio.com/Download)，请选择`System Installer`版本。
+下载[VSCode](https://code.visualstudio.com/Download)，请选择`System Installer`版本。
 
 将安装路径改为`C:\Dev\IDEs\MicrosoftVSCode`。
 
