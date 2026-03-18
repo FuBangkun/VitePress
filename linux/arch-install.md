@@ -542,7 +542,7 @@ sudo systemctl enable gdm
 
 #### 显示管理器
 ```bash
-sudo systemctl enable sddm
+sudo systemctl enable plasmalogin
 ```
 
 ### Wayland合成器
