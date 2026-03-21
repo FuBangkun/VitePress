@@ -1,4 +1,4 @@
-# Arch Linux配置
+# Arch Linux 配置
 ## 加速AUR构建
 从这里开始需要使用到普通用户，命令前`#`代表root用户，`$`代表普通用户。
 
@@ -129,7 +129,20 @@ curl -sL https://github.dpik.top/https://raw.githubusercontent.com/jorgebucaran/
 fisher install IlanCosman/tide@v6
 ```
 
-由于Fish不支持POSIX，所以不能用Fish做默认终端，使用时运行fish命令或者在终端模拟器里选择Fish启动。
+#### 将 fish 用作交互式 shell
+```bash
+~/.bashrc
+```
+
+追加以下内容
+
+```bash
+if [[ $(ps --no-header --pid=$PPID --format=comm) != "fish" && -z ${BASH_EXECUTION_STRING} && ${SHLVL} == 1 ]]
+then
+	shopt -q login_shell && LOGIN_OPTION='--login' || LOGIN_OPTION=''
+	exec fish $LOGIN_OPTION
+fi
+```
 
 ### Zsh + p10k
 #### 安装Zsh
@@ -493,4 +506,36 @@ vm.swappiness = 60
 
 ```shell
 sudo sysctl --system
+```
+
+## 电源管理
+```bash
+sudo pacman -S tlp acpi
+sudo systemctl enable --now tlp
+sudo systemctl enable --now fstrim.timer
+```
+
+### 笔记本电池充电阈值
+```bash
+sudo nano /etc/tlp.conf
+```
+
+修改以下内容
+
+```ini
+START_CHARGE_THRESH_BAT0=60
+STOP_CHARGE_THRESH_BAT0=80
+```
+
+### 笔记本合盖不睡眠
+```bash
+sudo nano /etc/systemd/logind.conf
+```
+
+修改以下内容
+
+```ini
+HandleLidSwitch=ignore
+HandleLidSwitchExternalPower=ignore
+LidSwitchIgnoreInhibited=yes
 ```
