@@ -11,16 +11,16 @@ export default defineConfig({
     },
   },
   themeConfig: {
-    darkModeSwitchLabel: "切换主题",
-
     docFooter: {
       prev: "上一篇",
       next: "下一篇",
     },
-
-    outlineTitle: "页面内容",
-
+    darkModeSwitchLabel: "切换主题",
+    lightModeSwitchTitle: "切换到浅色主题",
+    darkModeSwitchTitle: "切换到深色主题",
     sidebarMenuLabel: "菜单",
+    returnToTopLabel: "返回顶部",
+    outlineTitle: "页面内容",
 
     nav: [
       { text: '首页', link: '/' },
@@ -93,47 +93,52 @@ export default defineConfig({
         indexName: 'doc',
         locales: {
           root: {
-            placeholder: '搜索文档',
             translations: {
               button: {
-                buttonText: '搜索文档',
-                buttonAriaLabel: '搜索文档'
+                buttonText: '搜索',
+                buttonAriaLabel: '搜索'
               },
               modal: {
                 searchBox: {
-                  resetButtonTitle: '清除查询条件',
-                  resetButtonAriaLabel: '清除查询条件',
-                  cancelButtonText: '取消',
-                  cancelButtonAriaLabel: '取消'
-                },
-                startScreen: {
-                  recentSearchesTitle: '搜索历史',
-                  noRecentSearchesText: '没有搜索历史',
-                  saveRecentSearchButtonTitle: '保存至搜索历史',
-                  removeRecentSearchButtonTitle: '从搜索历史中移除',
-                  favoriteSearchesTitle: '收藏',
-                  removeFavoriteSearchButtonTitle: '从收藏中移除'
-                },
-                errorScreen: {
-                  titleText: '无法获取结果',
-                  helpText: '你可能需要检查你的网络连接'
+                  clearButtonTitle: '清除',
+                  clearButtonAriaLabel: '清除查询',
+                  closeButtonText: '关闭',
+                  closeButtonAriaLabel: '关闭',
+                  placeholderText: '搜索文档',
+                  searchInputLabel: '搜索'
                 },
                 footer: {
                   selectText: '选择',
-                  navigateText: '切换',
+                  selectKeyAriaLabel: '回车键',
+                  navigateText: '导航',
+                  navigateUpKeyAriaLabel: '向上箭头',
+                  navigateDownKeyAriaLabel: '向下箭头',
                   closeText: '关闭',
-                  searchByText: '搜索提供者'
+                  closeKeyAriaLabel: 'Esc 键',
+                  poweredByText: '搜索提供商'
+                },
+                errorScreen: {
+                  titleText: '无法获取结果',
+                  helpText: '你可能需要检查网络连接。'
+                },
+                startScreen: {
+                  recentSearchesTitle: '最近',
+                  noRecentSearchesText: '暂无最近搜索',
+                  saveRecentSearchButtonTitle: '保存此搜索',
+                  removeRecentSearchButtonTitle: '从历史记录中移除此搜索',
+                  favoriteSearchesTitle: '收藏',
+                  removeFavoriteSearchButtonTitle: '从收藏中移除此搜索'
                 },
                 noResultsScreen: {
-                  noResultsText: '无法找到相关结果',
-                  suggestedQueryText: '你可以尝试查询',
-                  reportMissingResultsText: '你认为该查询应该有结果？',
-                  reportMissingResultsLinkText: '点击反馈'
-                },
-              },
-            },
-          },
-        },
+                  noResultsText: '未找到相关结果',
+                  suggestedQueryText: '尝试搜索',
+                  reportMissingResultsText: '认为此查询应该有结果？',
+                  reportMissingResultsLinkText: '告诉我们。'
+                }
+              }
+            }
+          }
+        }
       },
     },
 
@@ -147,7 +152,16 @@ export default defineConfig({
       quote: "但如果你不改变方向，继续寻找，你可能会最终走到你想要的方向。",
       linkText: "返回首页",
     },
+
+    lastUpdated: {
+      text: '最后更新于',
+      formatOptions: {
+        dateStyle: 'full',
+        timeStyle: 'medium'
+      }
+    },
   },
+
   markdown: { 
     container: {
       tipLabel: '提示',
@@ -157,5 +171,6 @@ export default defineConfig({
       detailsLabel: '详细信息'
     }
   },
+
   lastUpdated: true
 })
