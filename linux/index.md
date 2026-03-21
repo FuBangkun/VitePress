@@ -1,17 +1,14 @@
----
-title: Linux
----
-# Linux
-Linux，一般指GNU/Linux（单独的Linux内核并不可直接使用，一般搭配GNU套件，故得此称呼），是一种免费使用和自由传播的类UNIX操作系统，其内核由林纳斯·本纳第克特·托瓦兹（Linus Benedict Torvalds）于1991年10月5日首次发布，它主要受到Minix和Unix思想的启发，是一个基于POSIX的多用户、多任务、支持多线程和多CPU的操作系统。它支持32位和64位硬件，能运行主要的Unix工具软件、应用程序和网络协议。
-
-Linux继承了Unix以网络为核心的设计思想，是一个性能稳定的多用户网络操作系统。Linux有上百种不同的发行版，如基于社区开发的Debian、Arch Linux，和基于商业开发的Red Hat Enterprise Linux、SUSE、Oracle Linux等。此教程基于Arch Linux。
-
-## Arch Linux
+# 介绍
 Arch Linux 是一种通用操作系统，它是基于 x86-64 架构的一类 GNU/Linux 发行版。
 
 Arch Linux 采用滚动升级模式，尽全力为用户提供最新的稳定版软件。初始安装完成的 Arch Linux 只是一个基本系统，随后用户可以根据自己的喜好安装需要的软件并配置成符合自己理想的个性化系统。
 
 [Arch Wiki](https://wiki.archlinuxcn.org/wiki/%E9%A6%96%E9%A1%B5) 是一个由社区驱动的 Arch Linux 知识库，在阅读此教程时请顺便参考 Arch Wiki。
+
+## Linux
+Linux，一般指GNU/Linux（单独的Linux内核并不可直接使用，一般搭配GNU套件，故得此称呼），是一种免费使用和自由传播的类UNIX操作系统，其内核由林纳斯·本纳第克特·托瓦兹（Linus Benedict Torvalds）于1991年10月5日首次发布，它主要受到Minix和Unix思想的启发，是一个基于POSIX的多用户、多任务、支持多线程和多CPU的操作系统。它支持32位和64位硬件，能运行主要的Unix工具软件、应用程序和网络协议。
+
+Linux继承了Unix以网络为核心的设计思想，是一个性能稳定的多用户网络操作系统。Linux有上百种不同的发行版，如基于社区开发的Debian、Arch Linux，和基于商业开发的Red Hat Enterprise Linux、SUSE、Oracle Linux等。此教程基于Arch Linux。
 
 ### 简洁
 Arch Linux 将简洁定义为：避免任何不必要的添加、修改和复杂化的增加。它提供的软件包都来自原始开发者（以下简称上游），且仅进行和本发行版（以下简称下游）相关的最小修改版本。

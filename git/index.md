@@ -1,6 +1,3 @@
----
-title: Git
----
 # Git
 
 ## 安装Git
