@@ -18,7 +18,7 @@ Get-FileHash archlinux-x86_64.iso -Algorithm SHA256
 ### 准备安装介质
 Arch Linux 的ISO文件可以被制作成多种类型安装介质，如 U 盘、光盘和带有 PXE 的网络安装映像。请按照合适的文章与教程，使用ISO文件为自己准备安装介质。
 
-可以考虑使用 Rufus 制作安装介质。
+Windows 上可以考虑使用 [Rufus](https://github.dpik.top/https://github.com/pbatard/rufus/releases/download/v4.13/rufus-4.13p.exe) 制作安装介质。
 
 ## 启动到 live 环境
 :::warning
@@ -347,291 +347,25 @@ title   Arch Linux
 linux   /vmlinuz-linux-zen
 initrd  /[amd-ucode或intel-ucode].img
 initrd  /initramfs-linux-zen.img
-options root=[root分区（单硬盘填/dev/nvme0n1p1，多硬盘填/dev/vg/lv）] rw quiet nvidia-drm.modeset=1
+options root=[root分区（单硬盘填/dev/nvme0n1p2，多硬盘填/dev/vg/lv）] rw quiet nvidia-drm.modeset=1
 ```
 
 - `rw`标记分区可读写，必须加。
 - `quiet`可以隐藏引导信息。
 - 如果有NVIDIA独显，且使用Wayland桌面，需要添加`nvidia-drm.modeset=1`。
 
-## 加速AUR构建
-从这里开始需要使用到普通用户，命令前`#`代表root用户，`$`代表普通用户。
-
-你通常不应该直接使用root用户，在普通用户下可以在命令前加上`sudo`来以root权限运行命令，如`sudo pacman -S base`。
-
-### GitHub下载加速
-#### 加速脚本
-```bash
-# pacman -S axel
-# su [用户名]
-$ nano ~/makepkg_proxy
-```
-
-添加以下内容
-
-```sh
-#!/bin/sh
-domain=$(echo "$2" | cut -f3 -d'/')
-case "$domain" in 
-    "github.com"|"raw.githubusercontent.com")
-        url="https://github.dpik.top/$2"
-        ;;
-    *)
-        url=$2
-        ;;
-esac
-/usr/bin/axel -n 10 -a -o "$1" "$url"
-```
-
-`https://github.dpik.top`是一个加速GitHub下载的网站，更多加速下载网站见[此网站](https://github.akams.cn/)。
-`10`是多线程下载的线程数。
-
-```bash
-$ chmod +x ~/makepkg_proxy
-```
-
-使脚本可运行。
-
-#### 配置makepkg
-```bash
-$ sudo nano /etc/makepkg.conf
-```
-
-修改下面的内容
-
-```ini
-DLAGENTS=('file::/usr/bin/curl -gqC - -o %o %u'
-          'ftp::/usr/bin/axel -n 15 -a -o %o %u'
-          'http::/usr/bin/axel -n 15 -a -o %o %u'
-          'https::/home/[用户名]/makepkg_proxy %o %u'
-          'rsync::/usr/bin/rsync --no-motd -z %u %o'
-          'scp::/usr/bin/scp -C %u %o')
-```
-
-### 加速构建
-```bash
-# pacman -S rust pigz pbzip2 lbzip2
-```
-
-#### 配置cargo
-```bash
-$ mkdir ~/.cargo
-$ nano ~/.cargo/config.toml
-```
-
-添加以下内容
-
-```toml
-[source.crates-io]
-replace-with = 'mirror'
-
-[source.mirror]
-registry = "sparse+https://mirrors.aliyun.com/crates.io-index/"
-```
-
-#### 安装paru
-```bash
-$ git clone https://aur.archlinux.org/paru.git ~/paru
-$ cd ~/paru
-$ makepkg -si
-```
-
-#### 修改MakePKG
-```bash
-$ paru -S plzip
-$ sudo nano /etc/makepkg.conf
-```
-
-修改下面的内容
-
-```ini
-MAKEFLAGS="-j4"
-OPTIONS=(... !debug ...)
-COMPRESSGZ=(pigz -c -f -n)
-COMPRESSBZ2=(lbzip2 -c -f)
-COMPRESSZST=(zstd -c -T0 --auto-threads=logical -)
-COMPRESSLZ=(plzip -c -f)
-```
-
-## 终端
-Fish Shell和Zsh Shell是两个不同的终端。Fish更轻量，功能多，但不兼容POSIX；Zsh兼容POSIX。可以同时安装。
-
-### Fish
-#### 安装fish和插件管理器fisher
-```bash
-sudo pacman -S fish
-mkdir -p ~/.config/fish/{plugins,conf.d}
-nano ~/.config/fish/conf.d/fisher.fish
-```
-
-添加以下内容
-
-```
-set -g fisher_path ~/.config/fish/plugins
-
-set fish_complete_path $fish_complete_path[1] $fisher_path/completions $fish_complete_path[2..]
-set fish_function_path $fish_function_path[1] $fisher_path/functions $fish_function_path[2..]
-
-for file in $fisher_path/conf.d/*.fish
-    source $file 2>/dev/null
-end
-```
-
-#### 安装tide
-```bash
-fish
-curl -sL https://github.dpik.top/https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
-fisher install IlanCosman/tide@v6
-```
-
-由于Fish不支持POSIX，所以不能用Fish做默认终端，使用时运行fish命令或者在终端模拟器里选择Fish启动。
-
-### Zsh + p10k
-#### 安装Zsh
-```bash
-sudo pacman -S zsh zsh-autosuggestions zsh-syntax-highlighting zsh-completions autojump
-chsh -s /usr/bin/zsh
-vim ~/.zshrc
-```
-
-添加以下内容
-
-```sh
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /usr/share/autojump/autojump.zsh
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-```
-
-:::warning
-你可能需要将在 ~/.bash_profile 所做的配置复制到 ~/.zsh_profile，将在 ~/.bashrc 所做的配置复制到 ~/.zshrc。
-:::
-
-#### 安装p10k
-```bash
-curl -fsSL https://github.dpik.top/https://raw.githubusercontent.com/zimfw/install/master/install.zsh | zsh
-echo "zmodule romkatv/powerlevel10k" >> ~/.zimrc
-zimfw install
-```
-
-因为Zim框架是从GitHub下载插件的，所以速度极慢，多等多试几次就好，或者挂梯子。
-
-## 桌面环境
-推荐安装[KDE](https://wiki.archlinuxcn.org/wiki/KDE)或者[GNOME](https://wiki.archlinuxcn.org/wiki/GNOME)，这两个生态最好。
-
-### GNOME
-#### 安装 GNOME
-有三个软件组可用：
-- gnome包组：包含基本的桌面环境和一些集成良好的应用
-- gnome-circle包组：包含多种格外应用，极大的拓展了GNOME生态。
-- gnome-extra包组：包含部分开发工具，以及其他适合GNOME的应用与游戏。
-
-或者只安装gnome-shell包使用GNOME基础桌面环境。
-
-#### 显示管理器
-```bash
-sudo systemctl enable gdm
-```
-
-### KDE
-#### 安装 KDE
-有两个包租可用：
-- plasma包组：包含基本的桌面环境和一些集成良好的应用
-- kde-applications包租：KDE全套应用
-
-或者只安装kde-desktop包使用KDE基础桌面环境。
-
-#### 显示管理器
-```bash
-sudo systemctl enable plasmalogin
-```
-
-### Wayland合成器
-常见的Wayland的合成器有Niri、Hyprland、Mango等，他们提供强大的客制化功能，但是需要大量配置，大量软件需要手写。
-
-你可以使用Noctalia Shell、Dank Material Shell等Wayland桌面shell来减少工作量。
-
-这里以Niri + Noctalia来演示部分功能（Noctalia用到了Google的包，需要梯子）。
-
-#### 安装Niri
-安装Niri、XWayland、XDG门户、显示管理器和剪贴板
-
-```bash
-sudo pacman -S niri xwayland-satellite xdg-desktop-portal-gtk xdg-desktop-portal-gnome uwsm cliphist
-```
-
-补全GNOME XDG门户自带的Nautilus的功能，当然你也可以换别的
-
-```bash
-sudo pacman -S ffmpegthumbnailer gvfs-smb nautilus-open-any-terminal file-roller gnome-keyring gst-plugins-base gst-plugins-good gst-libav
-```
-
-安装Noctalia
-
-```bash
-paru -S noctalia-shell-git matugen cava qt6-multimedia-ffmpeg
-```
-
-#### 配置终端
-假设使用Kitty作为终端模拟器。
-
-设置Nautilus默认终端模拟器。
-
-```bash
-sudo ln -s /usr/bin/kitty /usr/bin/gnome-terminal
-```
-
-修改默认终端
-
-```bash
-nano ~/.config/kitty/kitty.conf
-```
-
-修改`shell`为`/usr/bin/fish`，并去掉注释
-
-美化Kitty
-
-```bash
-kitty + kitten themes
-kitty list-fonts --psnames
-```
-
-#### 自动登录tty
-```bash
-sudo mkdir -p /etc/systemd/system/getty@tty1.service.d/
-sudo nano /etc/systemd/system/getty@tty1.service.d/autologin.conf
-```
-
-添加以下内容
-
-```
-[Service]
-ExecStart= 
-ExecStart=-/sbin/agetty --noreset --noclear --autologin [用户名] - ${TERM}
-```
-
-#### 显示管理器
-自动启动Niri
-
-```bash
-sudo nano ~/.bash_profile
-```
-
-添加以下内容
-
-```bash
-if [[ -z $DISPLAY && $(tty) == /dev/tty1 ]]; then
-    exec uwsm start niri.desktop
-fi
-```
-
 ## 结束安装
 输入`exit`退出到arch-chroot的第一层，也就是最开始的root用户。
+
+:::warning
+如果使用lvm2，请按以下步骤操作。
 
 ```bash
 nano /etc/mkinitcpio.conf
 ```
 
 在`HOOKS`里添加`lvm2`。
+:::
 
 ```bash
 mkinitcpio -P
