@@ -11,16 +11,19 @@
 4. 在开始菜单里打开`MSYS2 UCRT64`应用。
 
 5. 配置清华镜像源（加速下载）
+
     ```bash
     sed -i "s#https\?://mirror.msys2.org/#https://mirrors.tuna.tsinghua.edu.cn/msys2/#g" /etc/pacman.d/mirrorlist*
     ```
 
-6. 更新包
+6. 更新包（中途会关闭一次MSYS2，需要重启打开再执行一遍）
+
    ```bash
    pacman -Syu
    ```
 
 7. 配置环境变量
+
    在 PowerShell 中运行以下命令。
 
    ```powershell
@@ -28,6 +31,7 @@
    ```
 
 8. 安装 Fish Shell
+
    ```bash
    pacman -S fish
    mkdir -p ~/.config/fish/{plugins,conf.d}
@@ -48,28 +52,44 @@
    ```
 
 9. 在 Windows Terminal 中使用 Msys2
+
    打开 Windows Terminal → 标签栏下拉框 → 设置 → 左下角“打开 JSON 文件” → 在`list`中追加以下内容
 
    ```json
-   "list": 
-   [
-      { 
+   {
          "commandline": "C:\\Dev\\msys64\\msys2_shell.cmd -defterm -here -no-start -ucrt64 -shell fish",
+         "font": 
+         {
+            "face": "JetBrainsMonoNL Nerd Font Propo"
+         },
          "guid": "{fd57d26d-d3d0-448a-8bd5-e44632685d72}",
          "hidden": false,
          "icon": "C:\\Dev\\msys64\\ucrt64.ico",
          "name": "MSYS2 UCRT64",
          "startingDirectory": "C:\\Dev\\msys64\\home\\%USERNAME%"
-      }
-   ]
+   },
+   {
+         "commandline": "C:\\Dev\\msys64\\msys2_shell.cmd -defterm -here -no-start -ucrt64",
+         "font": 
+         {
+            "face": "JetBrainsMonoNL Nerd Font Propo"
+         },
+         "guid": "{84fba1d4-89b0-4586-8c0a-dc67a8688c14}",
+         "hidden": false,
+         "icon": "C:\\Dev\\msys64\\ucrt64.ico",
+         "name": "MSYS2 UCRT64 (bash)",
+         "startingDirectory": "C:\\Dev\\msys64\\home\\%USERNAME%"
+   }
    ```
 
 10. 安装 JetBrians Mono Nerd 字体
+
    下载 [JetBrians Mono Nerd 字体](https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/JetBrainsMono.zip)并安装。
 
    打开 Windows Terminal → 标签栏下拉框 → 设置 → `MSYS2 UCRT64` → 其他设置 → 外观 → 字体 → 选择 `JetBrainsMonoNL Nerd Font Propo`。
 
 11. 安装 Tide
+
    在 Windows Terminal 里打开 `MSYS2 UCRT64`。
 
    ```bash
@@ -77,7 +97,12 @@
    fisher install IlanCosman/tide@v6
    ```
 
-   按自己喜好配置 Tide 样式
+   按自己喜好配置 Tide 
+   
+12. 安装 Git
+   ```bash
+   pacman -S mingw-w64-ucrt-x86_64-git
+   ```
 
 ## C/C++
 ### 安装
@@ -147,9 +172,12 @@ sudo pacman -S uv
 ```
 
 ### 配置 UV 镜像源
+::: warning
+Windows 需在 `MSYS2 UCRT64` 中执行
+:::
+
 ```bash
-uv config set pypi.index-url https://pypi.tuna.tsinghua.edu.cn/simple/
-uv config set python.index-url https://mirrors.tuna.tsinghua.edu.cn/python/
+mkdir -p ~/.config/uv && echo -e '[registries.tuna]\nindex = "https://pypi.tuna.tsinghua.edu.cn/simple/"' > ~/.config/uv/config.toml
 ```
 
 ### 与VS Code集成
@@ -221,6 +249,12 @@ pacman -S mingw-w64-ucrt-x86_64-nodejs
 npm install -g pnpm
 ```
 
+在 PowerShell 里以管理员身份运行以下命令：
+
+```powershell
+set-ExecutionPolicy RemoteSigned
+```
+
 #### Arch Linux
 ```bash
 sudo pacman -S nodejs npm pnpm
@@ -240,3 +274,102 @@ pnpm --version
 ```
 
 有输出即为安装成功
+
+## Java/Kotlin
+Windows 和 Arch Linux 通用。
+
+### 安装 SDKMAN!
+需先安装 [Visual C++ Redistributable](https://aka.ms/vs/17/release/vc_redist.x64.exe)。
+
+```bash
+pacman -S zip unzip
+curl -s "https://get.sdkman.io" | bash
+bash
+source ~/.sdkman/bin/sdkman-init.sh
+```
+
+::: warning
+Fish Shell 无法运行 `sdk` 命令，必须使用 Bash Shell。
+:::
+
+### 检查 SDKMAN! 安装
+```bash
+sdk version
+```
+
+### Windows 环境变量
+
+在 PowerShell 中运行以下命令。
+
+```powershell
+# Java
+[Environment]::SetEnvironmentVariable("JAVA_HOME", "C:\Dev\msys64\home\[用户名]\.sdkman\candidates\java\current", "User")
+[Environment]::SetEnvironmentVariable("Path", $env:Path + ";%JAVA_HOME%\bin", "User")
+[Environment]::SetEnvironmentVariable("CLASSPATH", ".;%JAVA_HOME%\lib\tools.jar;%JAVA_HOME%\lib\dt.jar", "User")
+# Gralde
+[Environment]::SetEnvironmentVariable("GRADLE_HOME", "C:\Dev\msys64\home\[用户名]\.sdkman\candidates\gradle\current", "User")
+[Environment]::SetEnvironmentVariable("Path", $env:Path + ";%GRADLE_HOME%\bin", "User")
+# Maven
+[Environment]::SetEnvironmentVariable("MAVEN_HOME", "C:\Dev\msys64\home\[用户名]\.sdkman\candidates\maven\current", "User")
+[Environment]::SetEnvironmentVariable("Path", $env:Path + ";%MAVEN_HOME%\bin", "User")
+# Kotlin
+[Environment]::SetEnvironmentVariable("KOTLIN_HOME", "C:\Dev\msys64\home\[用户名]\.sdkman\candidates\kotlin\current", "User")
+[Environment]::SetEnvironmentVariable("Path", $env:Path + ";%KOTLIN_HOME%\bin", "User")
+```
+
+### SDKMAN! 常用命令
+查询可用 JDK。
+
+```bash
+sdk list java
+```
+
+安装特定 JDK 版本（如Zulu 25.0.2）。
+
+```bash
+sdk install java 25.0.2-zulu
+```
+
+设置默认 JDK 版本。
+
+```bash
+sdk default java 25.0.2-zulu
+```
+
+切换当前终端的 JDK 版本。
+
+```bash
+sdk use java 17-tem
+```
+
+安装 Gradle、Maven、Kotlin 等（下载太慢可以直接把文件放进`C:\Dev\msys64\home\[用户名]\.sdkman\tmp`）。
+
+```bash
+sdk install gradle 8.14.4
+sdk install maven
+sdk install kotlin
+```
+
+查看已安装的 SDK。
+
+```bash
+sdk current
+```
+
+切换 SDK 版本。
+
+```bash
+sdk use gradle 7.5
+```
+
+卸载 SDK。
+
+```bash
+sdk uninstall java 25.0.2-zulu
+```
+
+升级 SDKMAN!
+
+```bash
+sdk selfupdate
+```

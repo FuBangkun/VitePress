@@ -28,8 +28,7 @@ export default defineConfig({
         text: '开发环境',
         items: [
           { text: '开发环境', link: '/env/index' },
-          { text: 'Unix 工具链', link: '/env/unix' },
-          { text: 'Java', link: '/env/java' }, 
+          { text: '开发环境配置', link: '/env/env-configure' },
           { text: '集成开发环境', link: '/env/ide' }
         ]
       },
@@ -57,8 +56,7 @@ export default defineConfig({
         text: '开发环境',
         items: [
           { text: '开发环境', link: '/env/index' },
-          { text: 'Unix 工具链', link: '/env/unix' },
-          { text: 'Java', link: '/env/java' }, 
+          { text: '开发环境配置', link: '/env/env-configure' },
           { text: '集成开发环境', link: '/env/ide' }
         ]
       },
