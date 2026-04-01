@@ -51,6 +51,14 @@ DLAGENTS=('file::/usr/bin/curl -gqC - -o %o %u'
           'https::/home/[用户名]/makepkg_proxy %o %u'
           'rsync::/usr/bin/rsync --no-motd -z %u %o'
           'scp::/usr/bin/scp -C %u %o')
+LDFLAGS="... -fuse-ld=mold"
+MAKEFLAGS="-j4"
+OPTIONS=(... !debug !lto)
+COMPRESSGZ=(pigz -c -f -n)
+COMPRESSBZ2=(lbzip2 -c -f)
+COMPRESSZST=(zstd -c -T0 --auto-threads=logical -)
+COMPRESSLZ=(plzip -c -f)
+PKGEXT='.pkg.tar'
 ```
 
 ### 加速构建
@@ -79,23 +87,7 @@ registry = "sparse+https://mirrors.aliyun.com/crates.io-index/"
 $ git clone https://aur.archlinux.org/paru.git ~/paru
 $ cd ~/paru
 $ makepkg -si
-```
-
-#### 修改MakePKG
-```bash
 $ paru -S plzip
-$ sudo nano /etc/makepkg.conf
-```
-
-修改下面的内容
-
-```ini
-MAKEFLAGS="-j4"
-OPTIONS=(... !debug ...)
-COMPRESSGZ=(pigz -c -f -n)
-COMPRESSBZ2=(lbzip2 -c -f)
-COMPRESSZST=(zstd -c -T0 --auto-threads=logical -)
-COMPRESSLZ=(plzip -c -f)
 ```
 
 ## 终端
@@ -131,7 +123,7 @@ fisher install IlanCosman/tide@v6
 
 #### 将 fish 用作交互式 shell
 ```bash
-~/.bashrc
+nano ~/.bashrc
 ```
 
 追加以下内容
@@ -511,8 +503,7 @@ sudo sysctl --system
 ## 电源管理
 ```bash
 sudo pacman -S tlp acpi
-sudo systemctl enable --now tlp
-sudo systemctl enable --now fstrim.timer
+sudo systemctl enable --now tlp fstrim.timer
 ```
 
 ### 笔记本电池充电阈值

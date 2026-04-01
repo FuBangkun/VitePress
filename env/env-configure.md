@@ -2,7 +2,7 @@
 ## MSYS2（Windows必装）
 用于在 Windows 下配置 Unix 工具链。
 
-1. 打开[Msys2官网](https://www.msys2.org/)下载x86_64版本的Msys2并打开，如`msys2-x86_64-20251213.exe`。
+1. 打开[Msys2官网](https://www.msys2.org/)下载x86_64版本的Msys2并打开，如`msys2-x86_64-20260322.exe`。
 
 2. 将安装路径改为`C:\Dev\msys64`。
 
@@ -57,36 +57,24 @@
 
    ```json
    {
-         "commandline": "C:\\Dev\\msys64\\msys2_shell.cmd -defterm -here -no-start -ucrt64 -shell fish",
-         "font": 
-         {
-            "face": "JetBrainsMonoNL Nerd Font Propo"
-         },
-         "guid": "{fd57d26d-d3d0-448a-8bd5-e44632685d72}",
-         "hidden": false,
-         "icon": "C:\\Dev\\msys64\\ucrt64.ico",
-         "name": "MSYS2 UCRT64",
-         "startingDirectory": "C:\\Dev\\msys64\\home\\%USERNAME%"
-   },
-   {
-         "commandline": "C:\\Dev\\msys64\\msys2_shell.cmd -defterm -here -no-start -ucrt64",
-         "font": 
-         {
-            "face": "JetBrainsMonoNL Nerd Font Propo"
-         },
-         "guid": "{84fba1d4-89b0-4586-8c0a-dc67a8688c14}",
-         "hidden": false,
-         "icon": "C:\\Dev\\msys64\\ucrt64.ico",
-         "name": "MSYS2 UCRT64 (bash)",
-         "startingDirectory": "C:\\Dev\\msys64\\home\\%USERNAME%"
+      "commandline": "C:\\Dev\\msys64\\msys2_shell.cmd -defterm -here -no-start -ucrt64 -shell fish -use-full-path",
+      "font": 
+      {
+         "face": "JetBrainsMonoNL Nerd Font Propo"
+      },
+      "guid": "{fd57d26d-d3d0-448a-8bd5-e44632685d72}",
+      "hidden": false,
+      "icon": "C:\\Dev\\msys64\\ucrt64.ico",
+      "name": "MSYS2 UCRT64",
+      "startingDirectory": "C:\\Dev\\msys64\\home\\%USERNAME%"
    }
    ```
 
 10. 安装 JetBrians Mono Nerd 字体
 
-   下载 [JetBrians Mono Nerd 字体](https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/JetBrainsMono.zip)并安装。
+   下载 [JetBrians Mono Nerd 字体](https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/JetBrainsMono.zip) 并安装。
 
-   打开 Windows Terminal → 标签栏下拉框 → 设置 → `MSYS2 UCRT64` → 其他设置 → 外观 → 字体 → 选择 `JetBrainsMonoNL Nerd Font Propo`。
+   打开 Windows Terminal → 标签栏下拉框 → 设置 → `MSYS2 UCRT64` → 其他设置 → 外观 → 字体 → 选择 `JetBrainsMono Nerd Font Mono`。
 
 11. 安装 Tide
 
@@ -284,13 +272,8 @@ Windows 和 Arch Linux 通用。
 ```bash
 pacman -S zip unzip
 curl -s "https://get.sdkman.io" | bash
-bash
-source ~/.sdkman/bin/sdkman-init.sh
+fisher install reitzig/sdkman-for-fish@v2.1.0
 ```
-
-::: warning
-Fish Shell 无法运行 `sdk` 命令，必须使用 Bash Shell。
-:::
 
 ### 检查 SDKMAN! 安装
 ```bash
@@ -359,7 +342,7 @@ sdk current
 切换 SDK 版本。
 
 ```bash
-sdk use gradle 7.5
+sdk use gradle 8.14.4
 ```
 
 卸载 SDK。

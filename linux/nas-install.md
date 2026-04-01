@@ -512,9 +512,8 @@ fi
 ## 电源管理
 ```bash
 sudo pacman -S tlp acpi
-sudo systemctl enable --now tlp
+sudo systemctl enable --now tlp fstrim.timer
 sudo systemctl set-default multi-user.target
-sudo systemctl enable --now fstrim.timer
 ```
 
 ### 笔记本电池充电阈值
