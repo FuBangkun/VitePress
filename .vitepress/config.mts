@@ -27,7 +27,6 @@ export default defineConfig({
       {
         text: '开发环境',
         items: [
-          { text: '开发环境', link: '/env/index' },
           { text: '开发环境配置', link: '/env/env-configure' },
           { text: '集成开发环境', link: '/env/ide' }
         ]
@@ -35,14 +34,14 @@ export default defineConfig({
       {
         text: 'Git',
         items: [
-          { text: 'Git', link: '/git/index' },
+          { text: 'Git', link: '/git/git' },
           { text: 'GitHub', link: '/git/github' }
         ]
       },
       {
         text: 'Arch Linux',
         items: [
-          { text: '介绍', link: '/linux/index' },
+          { text: '介绍', link: '/linux/linux' },
           { text: '系统安装', link: '/linux/install' },
           { text: '系统配置', link: '/linux/arch-configure' },
           { text: '游戏配置', link: '/linux/game-configure' },
@@ -55,7 +54,6 @@ export default defineConfig({
       {
         text: '开发环境',
         items: [
-          { text: '开发环境', link: '/env/index' },
           { text: '开发环境配置', link: '/env/env-configure' },
           { text: '集成开发环境', link: '/env/ide' }
         ]
@@ -63,14 +61,14 @@ export default defineConfig({
       {
         text: 'Git',
         items: [
-          { text: 'Git', link: '/git/index' },
+          { text: 'Git', link: '/git/git' },
           { text: 'GitHub', link: '/git/github' }
         ]
       },
       {
         text: 'Arch Linux',
         items: [
-          { text: '介绍', link: '/linux/index' },
+          { text: '介绍', link: '/linux/linux' },
           { text: '系统安装', link: '/linux/install' },
           { text: '系统配置', link: '/linux/arch-configure' },
           { text: '游戏配置', link: '/linux/game-configure' },

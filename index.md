@@ -8,7 +8,7 @@ hero:
   actions:
     - theme: brand
       text: 开始
-      link: /env/index
+      link: /env/env-configure
     - theme: alt
       text: 源代码
       link: https://github.com/FuBangkun/VitePress
