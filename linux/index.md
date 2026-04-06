@@ -3,12 +3,12 @@ Arch Linux 是一种通用操作系统，它是基于 x86-64 架构的一类 GNU
 
 Arch Linux 采用滚动升级模式，尽全力为用户提供最新的稳定版软件。初始安装完成的 Arch Linux 只是一个基本系统，随后用户可以根据自己的喜好安装需要的软件并配置成符合自己理想的个性化系统。
 
-[Arch Wiki](https://wiki.archlinuxcn.org/wiki/%E9%A6%96%E9%A1%B5) 是一个由社区驱动的 Arch Linux 知识库，在阅读此教程时请顺便参考 Arch Wiki。
+[Arch Wiki](https://wiki.archlinuxcn.org/wiki/首页) 是一个由社区驱动的 Arch Linux 知识库，在阅读此教程时请顺便参考 Arch Wiki。
 
 ## Linux
-Linux，一般指GNU/Linux（单独的Linux内核并不可直接使用，一般搭配GNU套件，故得此称呼），是一种免费使用和自由传播的类UNIX操作系统，其内核由林纳斯·本纳第克特·托瓦兹（Linus Benedict Torvalds）于1991年10月5日首次发布，它主要受到Minix和Unix思想的启发，是一个基于POSIX的多用户、多任务、支持多线程和多CPU的操作系统。它支持32位和64位硬件，能运行主要的Unix工具软件、应用程序和网络协议。
+Linux，一般指 GNU/Linux（单独的 Linux 内核并不可直接使用，一般搭配 GNU 套件，故得此称呼），是一种免费使用和自由传播的类 UNIX 操作系统，其内核由林纳斯·本纳第克特·托瓦兹（Linus Benedict Torvalds）于 1991 年 10 月 5 日首次发布，它主要受到 Minix 和 Unix 思想的启发，是一个基于 POSIX 的多用户、多任务、支持多线程和多 CPU 的操作系统。它支持 32 位和 64 位硬件，能运行主要的 Unix 工具软件、应用程序和网络协议。
 
-Linux继承了Unix以网络为核心的设计思想，是一个性能稳定的多用户网络操作系统。Linux有上百种不同的发行版，如基于社区开发的Debian、Arch Linux，和基于商业开发的Red Hat Enterprise Linux、SUSE、Oracle Linux等。此教程基于Arch Linux。
+Linux 继承了 Unix 以网络为核心的设计思想，是一个性能稳定的多用户网络操作系统。Linux 有上百种不同的发行版，如基于社区开发的 Debian、Arch Linux，和基于商业开发的 Red Hat Enterprise Linux、SUSE、Oracle Linux 等。
 
 ### 简洁
 Arch Linux 将简洁定义为：避免任何不必要的添加、修改和复杂化的增加。它提供的软件包都来自原始开发者（以下简称上游），且仅进行和本发行版（以下简称下游）相关的最小修改版本。
@@ -40,14 +40,14 @@ Arch Linux 鼓励每一个用户参与和贡献，报告和帮助修复 bugs，�
 Arch Linux 现在是全球许多 GNU/Linux 用户的选择，已经有许多国际社区提供帮助和文档的翻译。
 
 ### 通用性
-Arch Linux 作为一种通用 Linux 发行版，它的初始安装仅提供命令行环境：用户不需要删除大量不需要的软件包，而是可以从官方软件仓库成千上万的高质量软件包中进行选择，并搭建自己的系统。目前支持 x86-64 架构。( 对 i686 架构的支持已经结束）
+Arch Linux 作为一种通用 Linux 发行版，它的初始安装仅提供命令行环境：用户不需要删除大量不需要的软件包，而是可以从官方软件仓库成千上万的高质量软件包中进行选择，并搭建自己的系统。目前支持 x86-64 架构。（对 i686 架构的支持已经结束）
 
 Arch Linux 使用 Pacman 包管理系统实现系统和软件包的滚动升级。并且 Arch Linux 还提供一个类似 ports 的包构建系统（Arch Build System），通过它可以轻松从源码构建和安装软件包，并用一个命令完成同步。您甚至可以用一个命令重新构建整个系统。Arch 还提供 Arch 用户仓库，它包含了成千上万个由用户自行维护的 PKGBUILD 脚本，配合 makepkg 工具，从编译到打包一气呵成。用户还能轻松构建和维护属于自己的自定义软件源。
 
 ## 重要概念
-- Linux目录结构
+- Linux 目录结构
 
-    Linux的目录是由`/`左斜杠开头的树状结构，所以`/`被称为根目录（root目录）。例如`/home`就是根目录下的home目录，`/home/fubangkun`就是根目录下的home目录里面的fubangkun目录。
+    Linux 的目录是由 `/` 左斜杠开头的树状结构，所以 `/` 被称为根目录（root目录）。例如 `/home` 就是根目录下的home目录，`/home/fubangkun` 就是根目录下的home目录里面的fubangkun目录。
 
 - 挂载
 
@@ -55,18 +55,18 @@ Arch Linux 使用 Pacman 包管理系统实现系统和软件包的滚动升级�
 
 - 挂载点（Mount Point）
 
-    假设把`/dev/nvme0n1`这个设备挂载到`/mnt`目录，那就称`/dev/nvme0n1`的挂载点为`/mnt`。
+    假设把 `/dev/nvme0n1` 这个设备挂载到 `/mnt` 目录，那就称 `/dev/nvme0n1` 的挂载点为 `/mnt`。
 
 - [文件系统](https://wiki.archlinuxcn.org/wiki/文件系统)
 
-    文件系统决定了文件的存放和检索方式，不同的文件系统有不同的功能和特性。此教程使用xfs文件系统，最大的特点性能强大。
+    文件系统决定了文件的存放和检索方式，不同的文件系统有不同的功能和特性。此教程使用 xfs 文件系统，最大的特点性能强大。
 
-- [BootLoader引导程序](https://wiki.archlinuxcn.org/wiki/Arch_的启动流程)
+- [BootLoader 引导程序](https://wiki.archlinuxcn.org/wiki/Arch_的启动流程)
 
-    引导程序，用来引导系统启动。常用的有grub和systemd-boot，此教程使用systemd-boot。
+    引导程序，用来引导系统启动。常用的有 grub、systemd-boot、rEFind 等，此教程使用 rEFind，因为它会搜索所有硬盘下的引导分区。
 
 - [EFI系统分区](https://wiki.archlinuxcn.org/wiki/EFI_系统分区)（ESP）
 
-    一个特殊的分区，用于存放.efi文件，这是启动系统的“第一把钥匙”，文件系统必须是FAT。
+    一个特殊的分区，用于存放 `.efi` 文件，这是启动系统的“第一把钥匙”，文件系统必须是 FAT。
 
-    常用挂载点为`/boot`、`/boot/efi`和`/efi`。`/boot`是最典型的挂载点，很多BootLoader程序只有ESP挂载点为`/boot`时才能正常工作，但是`/boot`存放着系统启动和初始化相关的文件，需要分配较大空间。`/boot/efi`和`/efi`没有这个问题。
+    常用挂载点为 `/boot`、`/boot/efi` 和 `/efi`。`/boot` 是最典型的挂载点，很多 BootLoader 程序只有 ESP 挂载点为 `/boot` 时才能正常工作，但是 `/boot` 存放着系统启动和初始化相关的文件，需要分配较大空间。`/boot/efi` 和 `/efi` 没有这个问题。

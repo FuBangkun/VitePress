@@ -1,22 +1,22 @@
 # NAS 安装
-此教程使用 UEFI引导、GPT分区表、XFS格式。此教程是 Arch Linux 配置 NAS 的完整教程，请不要参阅此网站其他关于 Linux 桌面端的教程。
+此教程使用 UEFI 引导、GPT 分区表、XFS 格式。此教程是 Arch Linux 配置 NAS 的完整教程，请不要参阅此网站其他关于 Linux 桌面端的教程。
 
 ## 获取安装映像
-下载[archlinux-x86_64.iso](https://mirrors.tuna.tsinghua.edu.cn/archlinux/iso/latest/archlinux-x86_64.iso)和[sha256sums.txt](https://mirrors.tuna.tsinghua.edu.cn/archlinux/iso/latest/sha256sums.txt)。
+下载 [archlinux-x86_64.iso](https://mirrors.tuna.tsinghua.edu.cn/archlinux/iso/latest/archlinux-x86_64.iso) 和 [sha256sums.txt](https://mirrors.tuna.tsinghua.edu.cn/archlinux/iso/latest/sha256sums.txt)。
 
 ## 验证签名
 建议使用前先验证所下载文件的签名，特别是从 HTTP 镜像源/非官方镜像仓库下载的文件，因为 HTTP 连接一般来说容易遭到拦截而提供恶意文件，而非官方镜像仓库可能会对镜像的文件进行恶意修改。验证签名也能及时发现文件损坏。
 
-将`sha256sums.txt`放在与`archlinux-x86_64.iso`同一个目录下，然后在此目录运行以下命令：
+将 `sha256sums.txt` 放在与 `archlinux-x86_64.iso` 同一个目录下，然后在此目录运行以下命令：
 
 ```powershell
 Get-FileHash archlinux-x86_64.iso -Algorithm SHA256
 ```
 
-将输出结果中的 Hash 字段与`sha256sums.txt`中`archlinux-x86_64.iso`前的sha256sum字段对比，如果一样即安装镜像没有问题。
+将输出结果中的 Hash 字段与 `sha256sums.txt` 中 `archlinux-x86_64.iso` 前的 sha256sum 字段对比，如果一样即安装镜像没有问题。
 
 ### 准备安装介质
-Arch Linux 的ISO文件可以被制作成多种类型安装介质，如 U 盘、光盘和带有 PXE 的网络安装映像。请按照合适的文章与教程，使用ISO文件为自己准备安装介质。
+Arch Linux 的 ISO 文件可以被制作成多种类型安装介质，如 U 盘、光盘和带有 PXE 的网络安装映像。请按照合适的文章与教程，使用 ISO 文件为自己准备安装介质。
 
 Windows 上可以考虑使用 [Rufus](https://github.dpik.top/https://github.com/pbatard/rufus/releases/download/v4.13/rufus-4.13p.exe) 制作安装介质。
 
@@ -47,12 +47,12 @@ archinstall
 cat /sys/firmware/efi/fw_platform_size
 ```
 
-- 如果命令结果为 64，则系统是以 UEFI 模式引导且使用 64 位 x64 UEFI。
-- 如果命令结果为 32，则系统是以 UEFI 模式引导且使用 32 位 IA32 UEFI，虽然其受支持，但引导加载程序只能使用 systemd-boot 和 GRUB。
-- 如果命令结果为No such file or directory，则系统可能是以 BIOS 模式（或 CSM 模式，这两种模式通常出现在老旧的电脑或未经配置的虚拟机上）引导。
+- 如果命令结果为 `64`，则系统是以 UEFI 模式引导且使用 64 位 x64 UEFI。
+- 如果命令结果为 `32`，则系统是以 UEFI 模式引导且使用 32 位 IA32 UEFI，虽然其受支持，但引导加载程序只能使用 systemd-boot 和 GRUB。
+- 如果命令结果为 `No such file or directory`，则系统可能是以 BIOS 模式（或 CSM 模式，这两种模式通常出现在老旧的电脑或未经配置的虚拟机上）引导。
 - 如果系统没有以您想要的模式（UEFI 或 BIOS）引导启动，请您参考自己的计算机或主板说明书。
 
-## ArchISO连接到互联网
+## ArchISO 连接到互联网
 要在 Live 环境中配置网络连接，请遵循以下步骤：
 
 1. 确保系统已经列出并启用了网络接口，用 `ip-link` 检查：
@@ -102,11 +102,11 @@ lsblk -pf
 查询硬盘详细情况
 
 ```bash
-fdisk -l [硬盘，如/dev/nvme0n1，具体请看上条命令的输出]
+fdisk -l [硬盘，如 /dev/nvme0n1，具体请看上条命令的输出]
 ```
 
 ### 单硬盘版
-假设硬盘为/dev/nvme0n1，分出1GiB当boot分区，剩余空间当root分区。
+假设硬盘为 /dev/nvme0n1，分出 1GiB 当 boot 分区，剩余空间当 root 分区。
 
 对硬盘进行分区
 
@@ -114,17 +114,17 @@ fdisk -l [硬盘，如/dev/nvme0n1，具体请看上条命令的输出]
 cfdisk /dev/nvme0n1
 ```
 
-1. 如果是新硬盘的话会弹出选项，选`GPT`。
-2. boot分区
+1. 如果是新硬盘的话会弹出选项，选 `GPT`。
+2. boot 分区
 
-    上下方向键选中空闲空间，左右方向键选择`New`，输入`1GB`并回车，选择`Type`，选择`EFI System`。
+    上下方向键选中空闲空间，左右方向键选择 `New`，输入 `1GB` 并回车，选择 `Type`，选择 `EFI System`。
 
-    如果你的类型里没有`EFI System`说明你的硬盘不是GPT分区表，可以选择`Quit`退出，运行`fdisk [硬盘]`，输入`g`回车创建GPT分区表（会删除所有已经存在的分区），输入w并回车保存更改，并从头开始。
-3. root分区
+    如果你的类型里没有 `EFI System` 说明你的硬盘不是 GPT 分区表，可以选择 `Quit` 退出，运行 `fdisk [硬盘]`，输入 `g` 回车创建GPT分区表（会删除所有已经存在的分区），输入 `w` 并回车保存更改，并从头开始。
+3. root 分区
 
-    上下方向键选中空闲空间，选择`New`，用掉所有剩余空间，类型`Linux Filesystem`不需要更改。
-4. 选择`Write`，输入`yes`并回车。
-5. 选择`Quit`退出。
+    上下方向键选中空闲空间，选择 `New`，用掉所有剩余空间，类型 `Linux Filesystem` 不需要更改。
+4. 选择 `Write`，输入 `yes` 并回车。
+5. 选择 `Quit` 退出。
 
 格式化分区
 
@@ -141,7 +141,7 @@ mount -m /dev/nvme0n1p1 /mnt/boot
 ```
 
 ### 多硬盘版
-假设硬盘为/dev/nvme0n1和/dev/nvme1n1，/dev/nvme0n1分出1GiB当boot分区，两个硬盘所有剩余空间当root分区。
+假设硬盘为 /dev/nvme0n1 和 /dev/nvme1n1，/dev/nvme0n1 分出 1GiB 当 boot 分区，两个硬盘所有剩余空间当 root 分区。
 
 对硬盘进行分区
 
@@ -149,28 +149,28 @@ mount -m /dev/nvme0n1p1 /mnt/boot
 cfdisk /dev/nvme0n1
 ```
 
-1. 如果是新硬盘的话会弹出选项，选`GPT`。
-2. 左右方向键选择`Delete`并回车，删掉所有分区。
-3. boot分区
+1. 如果是新硬盘的话会弹出选项，选 `GPT`。
+2. 左右方向键选择 `Delete` 并回车，删掉所有分区。
+3. boot 分区
 
-    上下方向键选择`Free Space`，选择`New`，输入`1GB`并回车，选择`Type`，选择`EFI System`。
+    上下方向键选择 `Free Space` ，选择 `New`，输入 `1GB` 并回车，选择 `Type`，选择 `EFI System`。
 
-    如果你的类型里没有`EFI System`说明你的硬盘不是GPT分区表，可以选择`Quit`退出，运行`fdisk [硬盘]`，输入`g`回车创建GPT分区表（会删除所有已经存在的分区），输入w并回车保存更改，并从头开始。
-4. 选择`Free Space`，选择`New`，用掉所有剩余空间，类型`Linux LVM`。
-5. 选择`Write`，输入`yes`并回车。
-6. 选择`Quit`退出。
+    如果你的类型里没有 `EFI System` 说明你的硬盘不是 GPT 分区表，可以选择 `Quit` 退出，运行 `fdisk [硬盘]`，输入 `g` 回车创建 GPT 分区表（会删除所有已经存在的分区），输入 `w` 并回车保存更改，并从头开始。
+4. 选择 `Free Space`，选择 `New`，用掉所有剩余空间，类型 `Linux LVM`。
+5. 选择 `Write`，输入 `yes` 并回车。
+6. 选择 `Quit`退出。
 
 ```bash
 cfdisk /dev/nvme1n1
 ```
 
-1. 如果是新硬盘的话会弹出选项，选`GPT`。
-2. 左右方向键选择`Delete`并回车，删掉所有分区。
-3. 选择`Free Space`，选择`New`，用掉所有剩余空间，类型`Linux LVM`。
-4. 选择`Write`，输入`yes`并回车。
-5. 选择`Quit`退出。
+1. 如果是新硬盘的话会弹出选项，选 `GPT`。
+2. 左右方向键选择 `Delete` 并回车，删掉所有分区。
+3. 选择 `Free Space`，选择 `New`，用掉所有剩余空间，类型 `Linux LVM`。
+4. 选择 `Write` ，输入 `yes` 并回车。
+5. 选择 `Quit` 退出。
 
-创建LVM
+创建 LVM
 
 ```bash
 pvcreate /dev/nvme0n1p2 /dev/nvme1n1p1
@@ -193,10 +193,10 @@ mount -m /dev/nvme0n1p1 /mnt/boot
 ```
 
 :::warning
-请注意必须安装`lvm2`包并在mkinitcpio.conf的HOOKS里添加`lvm2`，否则无法正常启动。稍后会提到具体操作。
+请注意必须安装 `lvm2` 包并在 `mkinitcpio.conf` 的 `HOOKS` 里添加 `lvm2`，否则无法正常启动。稍后会提到具体操作。
 :::
 
-## ArchISO包管理
+## ArchISO 包管理
 
 ### 配置镜像源
 ```bash
@@ -208,22 +208,22 @@ reflector -c China -p https --sort rate --completion-percent 95 --save /etc/pacm
 nano /etc/pacman.conf
 ```
 
-去掉`[multilib]`和`Color`前的井号
+去掉 `[multilib]` 和 `Color` 前的井号
 
 ### 基础包安装
 ```bash
 pacstrap -K /mnt base linux linux-headers linux-firmware amd-ucode nano xfsprogs sudo-rs base-devel git networkmanager lvm2 openssh
 ```
 
-- `base`、`linux`、`linux-headers`、`linux-firmware`是Linux内核和硬件包。
-- `amd-ucode`和`intel-ucode`是CPU微码，减小CPU错误率，安装哪个包取决于你是AMD还是Intel CPU。
-- `nano`是一个好用的TUI文本编辑器。
-- `xfsprogs`是XFS文件系统的管理工具。
-- `sudo-rs`是sudo的rust重写版，用来在普通用户下以root权限运行命令
-- `base-devel`和`git`是编译程序需要用到的包。
-- `networkmanager`是网络管理器。
-- `lvm2`是LVM管理器，使用LVM必须安装。
-- `openssh`是提供ssh的软件。
+- `base`、`linux`、`linux-headers`、`linux-firmware` 是 Linux 内核和硬件包。
+- `amd-ucode` 和 `intel-ucode` 是 CPU 微码，减小 CPU 错误率，安装哪个包取决于你是 AMD 还是 Intel CPU。
+- `nano` 是一个好用的 TUI 文本编辑器。
+- `xfsprogs` 是 XFS 文件系统的管理工具。
+- `sudo-rs` 是 sudo 的 rust 重写版，用来在普通用户下以 root 权限运行命令
+- `base-devel` 和 `git` 是编译程序需要用到的包。
+- `networkmanager` 是网络管理器。
+- `lvm2` 是 LVM 管理器，使用 LVM 必须安装。
+- `openssh` 是提供 SSH 的软件。
 
 ## Arch-Chroot
 ### 生成挂载信息
@@ -231,7 +231,7 @@ pacstrap -K /mnt base linux linux-headers linux-firmware amd-ucode nano xfsprogs
 genfstab -U /mnt > /mnt/etc/fstab
 ```
 
-### 进入Arch-Chroot
+### 进入 Arch-Chroot
 ```bash
 arch-chroot /mnt
 ```
@@ -247,7 +247,7 @@ timedatectl set-ntp true
 启用网络管理器服务（会开机自启）
 
 ```bash
-systemctl enable NetworkManager sshd
+systemctl enable NetworkManager.service sshd.service
 ```
 
 再次连接网络
@@ -257,14 +257,14 @@ systemctl enable NetworkManager sshd
 nano /etc/pacman.conf
 ```
 
-去掉`[multilib]`和`Color`前的井号
+去掉 `[multilib]` 和 `Color` 前的井号
 
 ```ini
 [archlinuxcn]
 Server = https://repo.archlinuxcn.org/$arch
 ```
 
-同步软件包并安装`archlinuxcn-keyring`
+同步软件包并安装 `archlinuxcn-keyring`
 
 ```bash
 pacman -Syu archlinuxcn-keyring pacman-contrib
@@ -273,14 +273,14 @@ systemctl enable pacman-filesdb-refresh.timer
 
 ## 本地化
 ### 安装字体
-不需要安装字体，因为服务器通常只使用SSH，而SSH使用客户端字体。
+不需要安装字体，因为服务器通常只使用 SSH，而 SSH 使用客户端字体。
 
 ### 配置语言
 ```
 nano /etc/locale.gen
 ```
 
-去掉`zh_CN.UTF-8`和`en_US.UTF-8`前面的井号
+去掉 `zh_CN.UTF-8` 和 `en_US.UTF-8` 前面的井号
 
 ```bash
 locale-gen
@@ -294,7 +294,7 @@ echo nas > /etc/hostname
 ```
 
 ## 用户
-### 设置root用户密码
+### 设置 root 用户密码
 ```bash
 passwd
 ```
@@ -310,57 +310,61 @@ passwd nas
 EDITOR=nano visudo
 ```
 
-去掉`%wheel ALL=(ALL:ALL) ALL`前的井号。
+去掉 `%wheel ALL=(ALL:ALL) ALL` 前的井号。
 
-如果去掉`%wheel ALL=(ALL:ALL) NOPASSWD: ALL`前的井号，运行sudo不需要输入密码。
+如果去掉 `%wheel ALL=(ALL:ALL) NOPASSWD: ALL` 前的井号，运行sudo不需要输入密码。
 
 ## 引导
-### 生成 Systemd-boot
+
+rEFInd 可以自动检测 `/boot` 下的内核并提供图形化选择界面，支持手动添加引导条目以传递内核参数。
+
+### 安装 rEFInd
 ```bash
-bootctl install --path=/boot
-mkdir -p /boot/loader/entries
-nano /boot/loader/loader.conf
+pacman -S --noconfirm refind-efi
+refind-install
+```
+
+如果 `refind-install` 无法自动安装，可以运行下面命令
+
+```bash
+cp -r /usr/share/refind /boot/EFI/refind
+mkdir -p /boot/EFI/BOOT
+cp /boot/EFI/refind/refind_x64.efi /boot/EFI/BOOT/BOOTX64.EFI
+```
+
+### 配置 rEFInd
+
+rEFInd 通常能自动检测内核和 initramfs，但你也可以在 `refind.conf` 中添加手动条目，或在 `refind.conf` 中调整自动检测行为：
+
+```bash
+nano /boot/EFI/refind/refind.conf
 ```
 
 添加以下内容
 
 ```ini
-default  arch.conf
-timeout  0
-console-mode max
-editor   no
+menuentry "Arch Linux" {
+    icon     /EFI/refind/icons/os_arch.png
+    loader   /vmlinuz-linux-zen
+    initrd   /[amd-ucode 或 intel-ucode].img
+    initrd   /initramfs-linux-zen.img
+    options  "root=[root分区（单硬盘填 /dev/nvme0n1p2，多硬盘填 /dev/vg/lv）] rw"
+}
 ```
 
-timeout为自动选择时间（单位为秒），设为`0`就不用进入引导选择界面
-
-## 配置引导选项
-```bash
-nano /boot/loader/entries/arch.conf
-```
-
-添加以下内容
-
-```ini
-title   Arch Linux
-linux   /vmlinuz-linux
-initrd  /[amd-ucode或intel-ucode].img
-initrd  /initramfs-linux.img
-options root=[root分区（单硬盘填/dev/nvme0n1p2，多硬盘填/dev/vg/lv）] rw
-```
-
-- `rw`标记分区可读写，必须加。
+- `rw` 标记分区可读写，必须加。
 
 ## 结束安装
-输入`exit`退出到arch-chroot的第一层，也就是最开始的root用户。
+输入 `exit` 退出到 Chroot 的第一层，也就是最开始的 root 用户。
 
 :::warning
-如果使用lvm2，请按以下步骤操作。
+如果使用 lvm2，请按以下步骤操作。
 
 ```bash
 nano /etc/mkinitcpio.conf
 ```
 
-在`HOOKS`里在`filesystems`之前添加`lvm2`。
+在 `HOOKS` 里在 `filesystems` 之前添加 `lvm2`。
 :::
 
 ```bash
@@ -369,11 +373,11 @@ exit
 reboot
 ```
 
-## 使用AUR
-### GitHub下载加速
+## 使用 AUR
+### GitHub 下载加速
 #### 加速脚本
 ```bash
-sudo pacman -S axel
+sudo pacman -S axel mold pigz pbzip2 lbzip2
 nano ~/makepkg_proxy
 ```
 
@@ -393,16 +397,16 @@ esac
 /usr/bin/axel -n 10 -a -o "$1" "$url"
 ```
 
-`https://github.dpik.top`是一个加速GitHub下载的网站，更多加速下载网站见[此网站](https://github.akams.cn/)。
+`https://github.dpik.top` 是一个加速 GitHub 下载的网站，更多加速下载网站见[此网站](https://github.akams.cn/)。
 `10`是多线程下载的线程数。
 
 ```bash
-chmod +x ~/makepkg_proxy
+$ chmod +x ~/makepkg_proxy
 ```
 
 使脚本可运行。
 
-#### 配置makepkg
+#### 配置 MakePKG
 ```bash
 sudo nano /etc/makepkg.conf
 ```
@@ -416,15 +420,19 @@ DLAGENTS=('file::/usr/bin/curl -gqC - -o %o %u'
           'https::/home/nas/makepkg_proxy %o %u'
           'rsync::/usr/bin/rsync --no-motd -z %u %o'
           'scp::/usr/bin/scp -C %u %o')
+LDFLAGS="... -fuse-ld=mold"
+MAKEFLAGS="-j4"
+OPTIONS=(... !debug !lto)
+COMPRESSGZ=(pigz -c -f -n)
+COMPRESSBZ2=(lbzip2 -c -f)
+COMPRESSZST=(zstd -c -T0 --auto-threads=logical -)
+COMPRESSLZ=(plzip -c -f)
+PKGEXT='.pkg.tar'
 ```
 
-### 加速构建
+#### 配置 Cargo
 ```bash
-sudo pacman -S rust pigz pbzip2 lbzip2
-```
-
-#### 配置cargo
-```bash
+sudo pacman -S rust
 mkdir ~/.cargo
 nano ~/.cargo/config.toml
 ```
@@ -439,35 +447,19 @@ replace-with = 'mirror'
 registry = "sparse+https://mirrors.aliyun.com/crates.io-index/"
 ```
 
-#### 安装paru
+#### 安装 Paru
 ```bash
 git clone https://aur.archlinux.org/paru.git ~/paru
 cd ~/paru
 makepkg -si
-```
-
-#### 修改MakePKG
-```bash
 paru -S plzip
-sudo nano /etc/makepkg.conf
-```
-
-修改下面的内容
-
-```ini
-MAKEFLAGS="-j4"
-OPTIONS=(... !debug ...)
-COMPRESSGZ=(pigz -c -f -n)
-COMPRESSBZ2=(lbzip2 -c -f)
-COMPRESSZST=(zstd -c -T0 --auto-threads=logical -)
-COMPRESSLZ=(plzip -c -f)
 ```
 
 ## 终端
-Fish Shell和Zsh Shell是两个不同的终端。Fish更轻量，功能多，但不兼容POSIX；Zsh兼容POSIX。可以同时安装。
+Fish Shell 和 Zsh Shell 是两个不同的终端。Fish Shell 更轻量，功能多，但不兼容 POSIX；Zsh Shell 兼容 POSIX。可以同时安装。
 
 ### Fish
-#### 安装fish和插件管理器fisher
+#### 安装 Fish 和插件管理器 Fisher
 ```bash
 sudo pacman -S fish
 mkdir -p ~/.config/fish/{plugins,conf.d}
@@ -487,14 +479,14 @@ for file in $fisher_path/conf.d/*.fish
 end
 ```
 
-#### 安装tide
+#### 安装 Tide
 ```bash
 fish
 curl -sL https://github.dpik.top/https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
 fisher install IlanCosman/tide@v6
 ```
 
-#### 将 fish 用作交互式 shell
+#### 将 Fish 用作交互式 Shell
 ```bash
 ~/.bashrc
 ```
@@ -553,7 +545,7 @@ paru -S code-server
 nano ~/.config/code-server/config.yaml
 ```
 
-将`127.0.0.1`改为`0.0.0.0`，`password`参数改成你的密码。
+将 `127.0.0.1` 改为 `0.0.0.0`，`password` 参数改成你的密码。
 
 ```bash
 sudo nano /usr/lib/code-server/lib/vscode/product.json
@@ -576,30 +568,30 @@ sudo nano /usr/lib/code-server/lib/vscode/product.json
 ```
 
 ```bash
-sudo systemctl enable --now code-server@nas
+sudo systemctl enable --now code-server@nas.service
 ```
 
-随后可以通过8080端口访问。
+随后可以通过 8080 端口访问。
 
 ### Open List
 ```bash
 paru -S openlist-bin
-sudo systemctl enable --now openlist
+sudo systemctl enable --now openlist.service
 ```
 
-获取密码，用户名为admin。
+从输出中获取密码，用户名为 `admin`。
 
 ```bash
 sudo systemctl status openlist
 ```
 
-随后可以通过5244端口访问。
+随后可以通过 5244 端口访问。
 
 ### Samba
 ```bash
 sudo pacman -S samba avahi
 paru -S wsdd2
-sudo systemctl enable --now smb avahi-daemon wsdd2
+sudo systemctl enable --now smb avahi-daemon.service wsdd2.service
 sudo mkdir /srv/nas
 sudo smbpasswd -a nas
 sudo chown -R nas:nas /srv/nas
@@ -632,14 +624,14 @@ sudo nano /etc/samba/smb.conf
    directory mask = 0775
 ```
 
-随后可以通过smb://nas/nas访问。
+随后可以通过 `smb://nas/nas` 访问。
 
 ### 静态主页
 ```bash
 sudo mkdir /srv/www
 ```
 
-在`/srv/www`中编写网页，根页面命名为index.html。
+在 `/srv/www` 中编写网页，根页面命名为index.html。
 
 ```bash
 sudo nano /etc/systemd/system/nas-mainpage.service
@@ -667,16 +659,16 @@ WantedBy=multi-user.target
 
 ```bash
 sudo systemctl daemon-reload
-sudo systemctl enable --now nas-mainpage
+sudo systemctl enable --now nas-mainpage.service
 ```
 
-随后可以通过80端口访问。
+随后可以通过 80 端口访问。
 
 ## Zram内存压缩与 Swappiness 策略优化
 
 Zram 在内存中创建一个压缩块设备作为 Swap 使用。由于 RAM 的速度远快于磁盘，且 Zstd 压缩效率高，这能显著提升系统响应速度，避免系统在内存压力大时卡死。
 
-[zram: Compressed RAM-based block devices — The Linux Kernel documentation](https://docs.kernel.org/admin-guide/blockdev/zram.html)
+[Zram: Compressed RAM-based block devices](https://docs.kernel.org/admin-guide/blockdev/zram.html)
 
 **通用配置原则：**
 - **Zram 大小**：建议设为物理内存的 **50%** (`zram-fraction = 0.5`)。
@@ -706,7 +698,7 @@ max-zram-size = none
 swap-priority = 100
 ```
 
-启动zram
+启动 Zram
 
 ```bash
 sudo systemctl daemon-reload

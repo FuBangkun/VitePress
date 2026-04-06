@@ -1,8 +1,8 @@
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
-  title: "付邦坤的网站",
-  description: "A VitePress Site",
+  title: "FuBangkun's Website",
+  description: "Description",
   lang: "zh-CN",
   locales: {
     "/": {
@@ -141,8 +141,8 @@ export default defineConfig({
     },
 
     footer: {
-      message: '根据 GPL v3 许可证发布。',
-      copyright: 'Copyright ©2026 付邦坤'
+      message: 'Released under the GPL v3 License.',
+      copyright: 'Copyright © 2026 FuBangkun'
     },
 
     notFound: {

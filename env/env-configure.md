@@ -1,95 +1,89 @@
-# UNIX 工具链
+# 开发环境配置
 ## MSYS2（Windows必装）
 用于在 Windows 下配置 Unix 工具链。
 
-1. 打开[Msys2官网](https://www.msys2.org/)下载x86_64版本的Msys2并打开，如`msys2-x86_64-20260322.exe`。
+1. 打开 [MSYS2 官网](https://www.msys2.org/)下载 x86_64 版本的 MSYS2 并打开，如`msys2-x86_64-20260322.exe`。
 
-2. 将安装路径改为`C:\Dev\msys64`。
+2. 安装选项保持默认安装。
 
-3. 剩下内容保持默认，完成安装。
+3. 在开始菜单里打开 `MSYS2 UCRT64` 应用。
 
-4. 在开始菜单里打开`MSYS2 UCRT64`应用。
-
-5. 配置清华镜像源（加速下载）
+4. 配置清华镜像源（加速下载）
 
     ```bash
     sed -i "s#https\?://mirror.msys2.org/#https://mirrors.tuna.tsinghua.edu.cn/msys2/#g" /etc/pacman.d/mirrorlist*
     ```
 
-6. 更新包（中途会关闭一次MSYS2，需要重启打开再执行一遍）
+5. 更新包
 
    ```bash
    pacman -Syu
    ```
 
-7. 配置环境变量
+6. 配置环境变量
 
    在 PowerShell 中运行以下命令。
 
    ```powershell
-   [Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\Dev\msys64\ucrt64\bin", "User")
+   [Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\msys64\ucrt64\bin", "User")
    ```
 
-8. 安装 Fish Shell
+7. 安装 JetBrians Mono Nerd 字体
 
-   ```bash
-   pacman -S fish
-   mkdir -p ~/.config/fish/{plugins,conf.d}
-   nano ~/.config/fish/conf.d/fisher.fish
-   ```
+   下载 [JetBrians Mono Nerd 字体](https://github.dpik.top/https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/JetBrainsMono.zip) 并安装名为 "JetBrainsMonoNerdFontMono-xxx.ttf" 的 16 个字体。
 
-   添加以下内容
-
-   ```
-   set -g fisher_path ~/.config/fish/plugins
-
-   set fish_complete_path $fish_complete_path[1] $fisher_path/completions $fish_complete_path[2..]
-   set fish_function_path $fish_function_path[1] $fisher_path/functions $fish_function_path[2..]
-
-   for file in $fisher_path/conf.d/*.fish
-      source $file 2>/dev/null
-   end
-   ```
-
-9. 在 Windows Terminal 中使用 Msys2
+8. 在 Windows Terminal 中使用 MSYS2
 
    打开 Windows Terminal → 标签栏下拉框 → 设置 → 左下角“打开 JSON 文件” → 在`list`中追加以下内容
 
    ```json
    {
-      "commandline": "C:\\Dev\\msys64\\msys2_shell.cmd -defterm -here -no-start -ucrt64 -shell fish -use-full-path",
+      "commandline": "C:\\msys64\\msys2_shell.cmd -defterm -here -no-start -ucrt64",
       "font": 
       {
-         "face": "JetBrainsMonoNL Nerd Font Propo"
+         "face": "JetBrainsMono Nerd Font Mono"
       },
       "guid": "{fd57d26d-d3d0-448a-8bd5-e44632685d72}",
       "hidden": false,
-      "icon": "C:\\Dev\\msys64\\ucrt64.ico",
+      "icon": "C:\\msys64\\ucrt64.ico",
       "name": "MSYS2 UCRT64",
-      "startingDirectory": "C:\\Dev\\msys64\\home\\%USERNAME%"
+      "startingDirectory": "C:\\msys64\\home\\%USERNAME%"
    }
    ```
 
-10. 安装 JetBrians Mono Nerd 字体
+## Git
+### 安装
+#### Windows
+在 MSYS2 里运行以下命令：
 
-   下载 [JetBrians Mono Nerd 字体](https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/JetBrainsMono.zip) 并安装。
+```bash
+pacman -S mingw-w64-ucrt-x86_64-git
+echo -e "@echo off\nsetlocal\nif "%1" equ "rev-parse" goto rev_parse\ngit %*\ngoto :eof\n:rev_parse\nfor /f %%1 in ('git %*') do cygpath -w %%1" > /git-wrap.bat
+```
 
-   打开 Windows Terminal → 标签栏下拉框 → 设置 → `MSYS2 UCRT64` → 其他设置 → 外观 → 字体 → 选择 `JetBrainsMono Nerd Font Mono`。
+在 VS Code 中修改 `git.path` 为 `c:/msys64/git-wrap.bat`
 
-11. 安装 Tide
+#### Arch Linux
+```bash
+sudo pacman -S git
+```
 
-   在 Windows Terminal 里打开 `MSYS2 UCRT64`。
+### 配置信息
+1. 设置用户名，建议与 GitHub 用户名一致。
 
    ```bash
-   curl -sL https://github.dpik.top/https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
-   fisher install IlanCosman/tide@v6
+   git config --global user.name "[用户名]"
    ```
 
-   按自己喜好配置 Tide 
-   
-12. 安装 Git
+2. 设置邮箱，建议与 GitHub 邮箱一致。
+
    ```bash
-   pacman -S mingw-w64-ucrt-x86_64-git
+   git config --global user.email "[邮箱]"
+   ```
+
+3. 设置默认分支为 `main`
+   ```bash
+   git config --global init.defaultBranch main
    ```
 
 ## C/C++
@@ -106,7 +100,7 @@ pacman -S mingw-w64-ucrt-x86_64-gcc
 sudo pacman -S base-devel
 ```
 
-### 与VS Code集成
+### 与 VS Code 集成
 不使用 VS Code 官方 C/C++ 扩展，推荐使用 Clangd（更强的静态分析）。
 
 1. 安装 [VS Code](/env/ide#microsoft-visual-studio-code)
@@ -146,7 +140,7 @@ gcc --version
 ### 安装
 #### Windows
 ::: tip
-如果无法运行uv，可能需要关闭Windows安全中心“应用和浏览器控制”中的“智能应用控制”。
+如果无法运行 uv，可能需要关闭“Windows 安全中心”中的“应用和浏览器控制”中的“智能应用控制”。
 :::
 
 在MSYS2里运行以下命令：
@@ -168,7 +162,7 @@ Windows 需在 `MSYS2 UCRT64` 中执行
 mkdir -p ~/.config/uv && echo -e '[registries.tuna]\nindex = "https://pypi.tuna.tsinghua.edu.cn/simple/"' > ~/.config/uv/config.toml
 ```
 
-### 与VS Code集成
+### 与 VS Code 集成
 1. 安装 [VS Code](/env/ide#microsoft-visual-studio-code)
 
 2. 安装扩展：`python`、`Code Runner`
@@ -217,14 +211,14 @@ cargo --version
 
 有输出即为安装成功
 
-### 与VS Code集成
+### 与 VS Code 集成
 1. 安装[VS Code](/env/ide#microsoft-visual-studio-code)
 
 2. 安装扩展：`rust-analyzer`、`Code Runner`
 
 3. 开启 `code-runner` 的 `runInTerminal` 设置
 
-4. 点击rs文件右上角的 `Run Code` 按钮运行
+4. 点击 rs 文件右上角的 `Run Code` 按钮运行
 
 
 ## Node.js

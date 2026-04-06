@@ -2,9 +2,9 @@
 layout: home
 
 hero:
-  name: "付邦坤的网站"
-  text: "网站描述"
-  tagline: 网站标语
+  name: "FuBangkun's Website"
+  text: "Subtitle"
+  tagline: Description
   actions:
     - theme: brand
       text: 开始

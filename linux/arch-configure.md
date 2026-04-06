@@ -1,13 +1,13 @@
 # 系统配置
-## 加速AUR构建
-从这里开始需要使用到普通用户，命令前`#`代表root用户，`$`代表普通用户。
+## 使用 AUR
+从这里开始需要使用到普通用户，命令前 `#` 代表 root 用户，`$` 代表普通用户。
 
-你通常不应该直接使用root用户，在普通用户下可以在命令前加上`sudo`来以root权限运行命令，如`sudo pacman -S base`。
+你通常不应该直接使用 root 用户，在普通用户下可以在命令前加上 `sudo` 来以 root权限运行命令，如 `sudo pacman -S base`。
 
-### GitHub下载加速
+### GitHub 下载加速
 #### 加速脚本
 ```bash
-# pacman -S axel
+# pacman -S axel mold pigz pbzip2 lbzip2
 # su [用户名]
 $ nano ~/makepkg_proxy
 ```
@@ -28,7 +28,7 @@ esac
 /usr/bin/axel -n 10 -a -o "$1" "$url"
 ```
 
-`https://github.dpik.top`是一个加速GitHub下载的网站，更多加速下载网站见[此网站](https://github.akams.cn/)。
+`https://github.dpik.top` 是一个加速 GitHub 下载的网站，更多加速下载网站见[此网站](https://github.akams.cn/)。
 `10`是多线程下载的线程数。
 
 ```bash
@@ -37,7 +37,7 @@ $ chmod +x ~/makepkg_proxy
 
 使脚本可运行。
 
-#### 配置makepkg
+#### 配置 MakePKG
 ```bash
 $ sudo nano /etc/makepkg.conf
 ```
@@ -63,10 +63,10 @@ PKGEXT='.pkg.tar'
 
 ### 加速构建
 ```bash
-# pacman -S rust pigz pbzip2 lbzip2
+# pacman -S rust
 ```
 
-#### 配置cargo
+#### 配置 Cargo
 ```bash
 $ mkdir ~/.cargo
 $ nano ~/.cargo/config.toml
@@ -82,7 +82,7 @@ replace-with = 'mirror'
 registry = "sparse+https://mirrors.aliyun.com/crates.io-index/"
 ```
 
-#### 安装paru
+#### 安装 Paru
 ```bash
 $ git clone https://aur.archlinux.org/paru.git ~/paru
 $ cd ~/paru
@@ -91,10 +91,10 @@ $ paru -S plzip
 ```
 
 ## 终端
-Fish Shell和Zsh Shell是两个不同的终端。Fish更轻量，功能多，但不兼容POSIX；Zsh兼容POSIX。可以同时安装。
+Fish Shell 和 Zsh Shell 是两个不同的终端。Fish Shell 更轻量，功能多，但不兼容 POSIX；Zsh Shell 兼容 POSIX。可以同时安装。
 
 ### Fish
-#### 安装fish和插件管理器fisher
+#### 安装 Fish 和插件管理器 Fisher
 ```bash
 sudo pacman -S fish
 mkdir -p ~/.config/fish/{plugins,conf.d}
@@ -114,14 +114,14 @@ for file in $fisher_path/conf.d/*.fish
 end
 ```
 
-#### 安装tide
+#### 安装 Tide
 ```bash
 fish
 curl -sL https://github.dpik.top/https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
 fisher install IlanCosman/tide@v6
 ```
 
-#### 将 fish 用作交互式 shell
+#### 将 Fish 用作交互式 Shell
 ```bash
 nano ~/.bashrc
 ```
@@ -137,7 +137,7 @@ fi
 ```
 
 ### Zsh + p10k
-#### 安装Zsh
+#### 安装 Zsh
 ```bash
 sudo pacman -S zsh zsh-autosuggestions zsh-syntax-highlighting zsh-completions autojump
 chsh -s /usr/bin/zsh
@@ -153,99 +153,99 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 ```
 
 :::warning
-你可能需要将在 ~/.bash_profile 所做的配置复制到 ~/.zsh_profile，将在 ~/.bashrc 所做的配置复制到 ~/.zshrc。
+你可能需要将在 `~/.bash_profile` 所做的配置复制到 `~/.zsh_profile`，将在 `~/.bashrc` 所做的配置复制到 `~/.zshrc`。
 :::
 
-#### 安装p10k
+#### 安装 p10k
 ```bash
 curl -fsSL https://github.dpik.top/https://raw.githubusercontent.com/zimfw/install/master/install.zsh | zsh
 echo "zmodule romkatv/powerlevel10k" >> ~/.zimrc
 zimfw install
 ```
 
-因为Zim框架是从GitHub下载插件的，所以速度极慢，多等多试几次就好，或者挂梯子。
+因为 Zim 框架是从 GitHub 下载插件的，所以速度极慢，多等多试几次就好，或者挂梯子。
 
 ## 桌面环境
-推荐安装[KDE](https://wiki.archlinuxcn.org/wiki/KDE)或者[GNOME](https://wiki.archlinuxcn.org/wiki/GNOME)，这两个生态最好。
+推荐安装 [KDE](https://wiki.archlinuxcn.org/wiki/KDE) 或者 [GNOME](https://wiki.archlinuxcn.org/wiki/GNOME)，这两个生态最好。
 
 ### GNOME
 #### 安装 GNOME
 有三个软件组可用：
-- gnome包组：包含基本的桌面环境和一些集成良好的应用
-- gnome-circle包组：包含多种格外应用，极大的拓展了GNOME生态。
-- gnome-extra包组：包含部分开发工具，以及其他适合GNOME的应用与游戏。
+- gnome 包组：包含基本的桌面环境和一些集成良好的应用
+- gnome-circle 包组：包含多种格外应用，极大的拓展了 GNOME 生态。
+- gnome-extra 包组：包含部分开发工具，以及其他适合 GNOME 的应用与游戏。
 
-或者只安装gnome-shell包使用GNOME基础桌面环境。
+或者只安装 gnome-shell 包使用 GNOME 基础桌面环境。
 
 #### 显示管理器
 ```bash
-sudo systemctl enable gdm
+sudo systemctl enable gdm.service
 ```
 
 ### KDE
 #### 安装 KDE
 有两个包租可用：
-- plasma包组：包含基本的桌面环境和一些集成良好的应用
-- kde-applications包租：KDE全套应用
+- plasma 包组：包含基本的桌面环境和一些集成良好的应用
+- kde-applications 包租：KDE 全套应用
 
-或者只安装kde-desktop包使用KDE基础桌面环境。
+或者只安装 kde-desktop 包使用 KDE 基础桌面环境。
 
 #### 显示管理器
 ```bash
-sudo systemctl enable plasmalogin
+sudo systemctl enable plasmalogin.service
 ```
 
 ### Wayland合成器
-常见的Wayland的合成器有Niri、Hyprland、Mango等，他们提供强大的客制化功能，但是需要大量配置，大量软件需要手写。
+常见的 Wayland 的合成器有 Niri、Hyprland、Mango 等，他们提供强大的客制化功能，但是需要大量配置，大量软件需要手写（当然你也可以用别人配置好的 dots，比如 end4）。
 
-你可以使用Noctalia Shell、Dank Material Shell等Wayland桌面shell来减少工作量。
+你可以使用 Noctalia Shell 、Dank Material Shell 等 Wayland 桌面 Shell 来减少工作量。
 
-这里以Niri + Noctalia来演示部分功能（Noctalia用到了Google的包，需要梯子）。
+这里以 Niri + Noctalia 来演示部分功能（Noctalia 用到了 Google 的包，需要梯子）。
 
 #### 安装Niri
-安装Niri、XWayland、XDG门户、显示管理器和剪贴板
+安装 Niri、XWayland、XDG 门户、显示管理器和剪贴板
 
 ```bash
 sudo pacman -S niri xwayland-satellite xdg-desktop-portal-gtk xdg-desktop-portal-gnome uwsm cliphist
 ```
 
-补全GNOME XDG门户自带的Nautilus的功能，当然你也可以换别的
+补全 GNOME XDG 门户自带的 Nautilus 的功能，当然你也可以换别的
 
 ```bash
 sudo pacman -S ffmpegthumbnailer gvfs-smb nautilus-open-any-terminal file-roller gnome-keyring gst-plugins-base gst-plugins-good gst-libav
 ```
 
-安装Noctalia
+安装 Noctalia
 
 ```bash
 paru -S noctalia-shell-git matugen cava qt6-multimedia-ffmpeg
 ```
 
 #### 配置终端
-假设使用Kitty作为终端模拟器。
+假设使用 Kitty 作为终端模拟器。
 
-设置Nautilus默认终端模拟器。
+设置 Nautilus 默认终端模拟器。
 
 ```bash
 sudo ln -s /usr/bin/kitty /usr/bin/gnome-terminal
 ```
 
-修改默认终端
+修改默认 Kitty Shell
 
 ```bash
 nano ~/.config/kitty/kitty.conf
 ```
 
-修改`shell`为`/usr/bin/fish`，并去掉注释
+修改 `shell` 为 `/usr/bin/fish`，并去掉注释
 
-美化Kitty
+美化 Kitty
 
 ```bash
 kitty + kitten themes
 kitty list-fonts --psnames
 ```
 
-#### 自动登录tty
+#### 自动登录 tty
 ```bash
 sudo mkdir -p /etc/systemd/system/getty@tty1.service.d/
 sudo nano /etc/systemd/system/getty@tty1.service.d/autologin.conf
@@ -260,7 +260,7 @@ ExecStart=-/sbin/agetty --noreset --noclear --autologin [用户名] - ${TERM}
 ```
 
 #### 显示管理器
-自动启动Niri
+自动启动 Niri
 
 ```bash
 sudo nano ~/.bash_profile
@@ -275,15 +275,15 @@ fi
 ```
 
 ## 输入法
-Linux下主流输入法有iBus和Fcitx。
+Linux 下主流输入法有 iBus 和 Fcitx。
 
-这里使用Fcitx5 + Rime + 雾凇拼音。
+这里使用 Fcitx5 + Rime + 雾凇拼音。
 
 ```bash
 sudo pacman -S fcitx5-im fcitx5-rime fcitx5-nord rime-ice-pinyin-git
 ```
 
-配置fcitx5-rime
+配置 fcitx5-rime
 
 ```bash
 mkdir -p ~/.local/share/fcitx5/rime
@@ -298,60 +298,60 @@ patch:
   menu/page_size: 10
 ```
 
-请[ArchWiki](https://wiki.archlinuxcn.org/wiki/Fcitx_5#配置)查询当前桌面环境和显示协议需要使用的环境变量。
+在 [ArchWiki](https://wiki.archlinuxcn.org/wiki/Fcitx_5#配置) 查询当前桌面环境和显示协议需要使用的环境变量。
 
 ## 显卡驱动和硬件编解码
 ### NVIDIA
-在[CodeNames](https://nouveau.freedesktop.org/CodeNames.html)搜索自己的显卡，看看对应的family是什么。然后在[ArchWiki](https://wiki.archlinux.org/title/NVIDIA)查找对应的显卡驱动。
+在 [CodeNames](https://nouveau.freedesktop.org/CodeNames.html) 搜索自己的显卡，看看对应的 family 是什么。然后在 [ArchWiki](https://wiki.archlinux.org/title/NVIDIA) 查找对应的显卡驱动。
 
-linux官方内核使用nvidia-open，其他内核都使用nvidia-open-dkms。
+Linux 官方内核使用 nvidia-open，其他内核都使用 nvidia-open-dkms。
 
 ```bash
 sudo pacman -S nvidia-open-dkms nvidia-utils lib32-nvidia-utils nvidia-vaapi-driver
 ```
 
-可选：安装OpenCL加速计算
+可选：安装 OpenCL 加速计算
 
 ```bash
 sudo pacman -S opencl-nvidia lib32-opencl-nvidia
 ```
 
 ### AMD
-AMD显卡不需要自己安装驱动，已经由linux-firmware和mesa提供。可以安装一下Vulkan驱动。
+AMD 显卡不需要自己安装驱动，已经由 linux-firmware 和 mesa 提供。可以安装一下 Vulkan 驱动。
 
 ```bash
 sudo pacman -S mesa lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon
 ```
 
-可选：安装OpenCL加速计算
+可选：安装 OpenCL 加速计算
 
 ```bash
 sudo pacman -S opencl-mesa lib32-opencl-mesa
 ```
 
 ### Intel
-Intel显卡不需要自己安装驱动，已经由linux-firmware和mesa提供。可以安装一下Vulkan驱动。
+Intel 显卡不需要自己安装驱动，已经由 linux-firmware 和 mesa 提供。可以安装一下 Vulkan 驱动。
 
-Broadwell以后的Intel显卡装intel-media-driver，旧的装libva-intel-driver。
+Broadwell 以后的 Intel 显卡装 intel-media-driver，旧的装 libva-intel-driver。
 
 ```bash
 sudo pacman -S mesa lib32-mesa vulkan-intel lib32-vulkan-intel intel-media-driver
 ```
 
-可选：安装OpenCL加速计算
+可选：安装 OpenCL 加速计算
 
 ```bash
 sudo pacman -S opencl-mesa lib32-opencl-mesa
 ```
 
 ### 验证硬件编解码
-先重启，再安装libva-utils
+先重启，再安装 libva-utils
 
 ```
 sudo pacman -S libva-utils
 ```
 
-运行vainfo验证，多显卡用户可以使用LIBVA_DRIVER_NAME环境变量指定要使用的显卡。
+运行 `vainfo` 验证，多显卡用户可以使用 `LIBVA_DRIVER_NAME` 环境变量指定要使用的显卡。
 
 ```
 LIBVA_DRIVER_NAME=nvidia vainfo
@@ -364,7 +364,8 @@ LIBVA_DRIVER_NAME=nvidia vainfo
     ```bash
     sudo pacman -S nvidia-prime
     ```
-    使用 prime-run命令使用独显运行软件
+
+    使用 `prime-run` 命令使用独显运行软件
 
     ```bash
     prime-run steam
@@ -372,30 +373,30 @@ LIBVA_DRIVER_NAME=nvidia vainfo
     
 - switcheroo-control
 
-    GNOME装这个可以右键桌面快捷方式选择使用独显运行
+    GNOME 装这个可以右键桌面快捷方式选择使用独显运行
 
     ```bash
     sudo pacman -S switcheroo-control
-    sudo systemctl enable --now switcheroo-control
+    sudo systemctl enable --now switcheroo-control.service
     ```
 
 - KDE：开始菜单右键编辑应用程序在高级页面设置用独显运行
 
 #### 显卡切换
-目前Wayland没有完善的显卡切换，只能做到从混合模式切换到核显模式。独显直连需要手动进BIOS调整，建议安装时处在混合模式。从混合切到独显直连大概率会失败，谨慎操作。
+目前 Wayland 没有完善的显卡切换，只能做到从混合模式切换到核显模式。独显直连需要手动进 BIOS 调整，建议安装时处在混合模式。从混合切到独显直连大概率会失败，谨慎操作。
 
 - supergfxctl
 
-    ASUS华硕用户可以用supergfxctl
+    华硕用户可以用 supergfxctl
 
     ```bash
     paru -S supergfxctl
-    sudo systemctl enable --now supergfxd
+    sudo systemctl enable --now supergfxd.service
     ```
 
-    GNOME从扩展里下载GPU supergfxctl switch
+    GNOME 装扩展 GPU supergfxctl switch
 
-    KDE从AUR安装plasma6-applets-supergfxctl
+    KDE 从 AUR 安装 plasma6-applets-supergfxctl
 
 - envycontrol
 
@@ -403,15 +404,15 @@ LIBVA_DRIVER_NAME=nvidia vainfo
     paru -S envycontrol 
     ```
 
-    GNOME装扩展GPU Profile Selector
+    GNOME 装扩展 GPU Profile Selector
 
-    KDE在桌面右键进入编辑模式，挂件商店里下载Optimus GPU Switcher
+    KDE 在桌面右键进入编辑模式，挂件商店里下载 Optimus GPU Switcher
 
 ## Zram内存压缩与 Swappiness 策略优化
 
 Zram 在内存中创建一个压缩块设备作为 Swap 使用。由于 RAM 的速度远快于磁盘，且 Zstd 压缩效率高，这能显著提升系统响应速度，避免系统在内存压力大时卡死。
 
-[zram: Compressed RAM-based block devices — The Linux Kernel documentation](https://docs.kernel.org/admin-guide/blockdev/zram.html)
+[zram: Compressed RAM-based block devices](https://docs.kernel.org/admin-guide/blockdev/zram.html)
 
 **通用配置原则：**
 - **Zram 大小**：建议设为物理内存的 **50%** (`zram-fraction = 0.5`)。
@@ -441,7 +442,7 @@ max-zram-size = none
 swap-priority = 100
 ```
 
-启动zram
+启动 Zram
 
 ```bash
 sudo systemctl daemon-reload
