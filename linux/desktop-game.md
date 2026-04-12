@@ -1,5 +1,5 @@
-# 游戏配置
-请先[安装显卡驱动](/linux/arch-configure#显卡驱动和硬件编解码)并[开启 multilib 库](/linux/install#包管理)。
+# 桌面端游戏
+请先[安装显卡驱动](/linux/desktop-configure#显卡驱动和硬件编解码)并[开启 multilib 库](/linux/install#包管理)。
 
 ## Steam
 ```bash
@@ -24,7 +24,7 @@ setup_dxvk install
 崩坏：星穹铁道：`echo "0.0.0.0          globaldp-prod-cn01.bhsr.com" >> /etc/hosts`
 绝区零：`echo "0.0.0.0          globaldp-prod-cn01.juequling.com" >> /etc/hosts`
 
-使用我打包的[脚本](https://www.lanzoui.com/iBbAa3k2bozg)，注意改一下游戏路径。你还可以将脚本设成快捷方式，图标已附带。
+使用我打包的<a href="/resources/GameTools.tar.xz" download>脚本</a>，注意改一下游戏路径。你还可以将脚本设成快捷方式，图标已附带。
 
 ## Waydroid
 一款 Wayland 上的安卓模拟器。

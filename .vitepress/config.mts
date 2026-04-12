@@ -42,10 +42,10 @@ export default defineConfig({
         text: 'Arch Linux',
         items: [
           { text: '介绍', link: '/linux/linux' },
-          { text: '系统安装', link: '/linux/install' },
-          { text: '系统配置', link: '/linux/arch-configure' },
-          { text: '游戏配置', link: '/linux/game-configure' },
-          { text: 'NAS 安装', link: '/linux/nas-install' }
+          { text: 'Arch Linux 安装', link: '/linux/install' },
+          { text: '桌面端配置', link: '/linux/desktop-configure' },
+          { text: '桌面端游戏', link: '/linux/desktop-game' },
+          { text: 'NAS 配置', link: '/linux/nas-configure' }
         ]
       }
     ],
@@ -69,10 +69,10 @@ export default defineConfig({
         text: 'Arch Linux',
         items: [
           { text: '介绍', link: '/linux/linux' },
-          { text: '系统安装', link: '/linux/install' },
-          { text: '系统配置', link: '/linux/arch-configure' },
-          { text: '游戏配置', link: '/linux/game-configure' },
-          { text: 'NAS 安装', link: '/linux/nas-install' }
+          { text: 'Arch Linux 安装', link: '/linux/install' },
+          { text: '桌面端配置', link: '/linux/desktop-configure' },
+          { text: '桌面端游戏', link: '/linux/desktop-game' },
+          { text: 'NAS 配置', link: '/linux/nas-configure' }
         ]
       }
     ],

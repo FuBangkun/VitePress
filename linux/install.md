@@ -1,6 +1,4 @@
-# 系统安装
-此教程使用 UEFI 引导、GPT 分区表、XFS 格式、Linux Zen 内核。
-
+# Arch Linux 安装
 ## 获取安装映像
 下载 [archlinux-x86_64.iso](https://mirrors.tuna.tsinghua.edu.cn/archlinux/iso/latest/archlinux-x86_64.iso) 和 [sha256sums.txt](https://mirrors.tuna.tsinghua.edu.cn/archlinux/iso/latest/sha256sums.txt)。
 
@@ -18,7 +16,7 @@ Get-FileHash archlinux-x86_64.iso -Algorithm SHA256
 ### 准备安装介质
 Arch Linux 的 ISO 文件可以被制作成多种类型安装介质，如 U 盘、光盘和带有 PXE 的网络安装映像。请按照合适的文章与教程，使用 ISO 文件为自己准备安装介质。
 
-Windows 上可以考虑使用 [Rufus](https://github.dpik.top/https://github.com/pbatard/rufus/releases/download/v4.13/rufus-4.13p.exe) 制作安装介质。
+Windows 上可以考虑使用 [Rufus](https://github.com/pbatard/rufus/releases/) 制作安装介质。
 
 ## 启动到 live 环境
 :::warning
@@ -102,7 +100,7 @@ lsblk -pf
 查询硬盘详细情况
 
 ```bash
-fdisk -l [硬盘，如/dev/nvme0n1，具体请看上条命令的输出]
+fdisk -l [硬盘，如 /dev/nvme0n1，具体请看上条命令的输出]
 ```
 
 ### 单硬盘版
@@ -155,7 +153,7 @@ cfdisk /dev/nvme0n1
 
     上下方向键选择 `Free Space`，选择 `New`，输入 `1GB` 并回车，选择 `Type`，选择 `EFI System`。
 
-    如果你的类型里没有 `EFI System` 说明你的硬盘不是 GPT 分区表，可以选择 `Quit` 退出，运行`fdisk [硬盘]`，输入 `g` 回车创建 GPT 分区表（会删除所有已经存在的分区），输入 `w` 并回车保存更改，并从头开始。
+    如果你的类型里没有 `EFI System` 说明你的硬盘不是 GPT 分区表，可以选择 `Quit` 退出，运行 `fdisk [硬盘]`，输入 `g` 回车创建 GPT 分区表（会删除所有已经存在的分区），输入 `w` 并回车保存更改，并从头开始。
 4. 选择 `Free Space`，选择 `New`，用掉所有剩余空间，类型 `Linux LVM`。
 5. 选择 `Write`，输入 `yes` 并回车。
 6. 选择 `Quit` 退出。
@@ -219,7 +217,7 @@ pacstrap -K /mnt base linux-zen linux-zen-headers linux-firmware amd-ucode nano 
 - `amd-ucode` 和 `intel-ucode` 是 CPU 微码，减小 CPU 错误率，安装哪个包取决于你是 AMD 还是 Intel CPU。
 - `nano` 是一个好用的 TUI 文本编辑器。
 - `xfsprogs` 是 XFS 文件系统的管理工具。
-- `sudo-rs` 是 sudo 的 rust 重写版，用来在普通用户下以root权限运行命令
+- `sudo-rs` 是 sudo 的 rust 重写版，用来在普通用户下以 root 权限运行命令
 - `base-devel` 和 `git` 是编译程序需要用到的包。
 - `networkmanager` 是网络管理器。
 - `bluez` 和 `bluez-utils` 是蓝牙管理器。
@@ -318,16 +316,57 @@ EDITOR=nano visudo
 如果去掉 `%wheel ALL=(ALL:ALL) NOPASSWD: ALL` 前的井号，运行 `sudo` 不需要输入密码。
 
 ## 引导
+单系统用 Systemd-Boot，它是最轻量的 UEFI 引导程序。
 
-rEFInd 可以自动检测 `/boot` 下的内核并提供图形化选择界面，支持手动添加引导条目以传递内核参数。
+多系统用 rEFInd，它可以自动检测 `/boot` 下的内核并提供图形化选择界面，支持手动添加引导条目以传递内核参数。
 
-### 安装 rEFInd
+### Systemd-Boot
+生成 Systemd-Boot
+
 ```bash
-pacman -S --noconfirm refind-efi
+bootctl install --path=/boot
+mkdir -p /boot/loader/entries
+nano /boot/loader/loader.conf
+```
+
+添加以下内容
+
+```ini
+default  arch.conf
+timeout  0
+console-mode max
+editor   no
+```
+
+配置引导选项
+
+```bash
+nano /boot/loader/entries/arch.conf
+```
+
+添加以下内容
+
+```ini
+title   Arch Linux
+linux   /vmlinuz-linux
+initrd  /[amd-ucode 或 intel-ucode].img
+initrd  /initramfs-linux.img
+options root=[root分区（单硬盘填 /dev/nvme0n1p2，多硬盘填 /dev/vg/lv）] rw quiet nvidia-drm.modeset=1
+```
+
+- `rw` 标记分区可读写，必须加。
+- `quiet` 可以隐藏内核输出。
+- 使用 NVIDIA 独显且在 Wayland 上时加 `nvidia-drm.modeset=1`。
+
+### rEFInd
+安装 rEFInd
+
+```bash
+pacman -S refind-efi
 refind-install
 ```
 
-如果 `refind-install` 无法自动安装，可以运行下面命令
+如果 `refind-install` 无法自动安装，可以运行下面命令。
 
 ```bash
 cp -r /usr/share/refind /boot/EFI/refind
@@ -335,31 +374,17 @@ mkdir -p /boot/EFI/BOOT
 cp /boot/EFI/refind/refind_x64.efi /boot/EFI/BOOT/BOOTX64.EFI
 ```
 
-### 配置 rEFInd
-
-rEFInd 通常能自动检测内核和 initramfs，但你也可以在 `refind.conf` 中添加手动条目，或在 `refind.conf` 中调整自动检测行为：
+:::danger
+使用 NVIDIA 独显且在 Wayland 上时需要开启 NVIDIA DRM。
 
 ```bash
-nano /boot/EFI/refind/refind.conf
+nano /boot/EFI/refind/refind_linux.conf
 ```
 
-添加以下内容
+在 `Boot with standard options` 最后添加 `nvidia-drm.modeset=1`。
+:::
 
-```ini
-menuentry "Arch Linux" {
-    icon     /EFI/refind/icons/os_arch.png
-    loader   /vmlinuz-linux-zen
-    initrd   /[amd-ucode 或 intel-ucode].img
-    initrd   /initramfs-linux-zen.img
-    options  "root=[root分区（单硬盘填 /dev/nvme0n1p2，多硬盘填 /dev/vg/lv）] rw quiet nvidia-drm.modeset=1"
-}
-```
-
-- `rw` 标记分区可读写，必须加。
-- `quiet` 可以隐藏内核输出。
-- 使用 NVIDIA 独显且在 Wayland 上时加 `nvidia-drm.modeset=1`。
-
-## 结束安装
+## 退出 Arch ISO
 输入 `exit` 退出到 Chroot 的第一层，也就是最开始的 root 用户。
 
 :::warning
@@ -369,11 +394,301 @@ menuentry "Arch Linux" {
 nano /etc/mkinitcpio.conf
 ```
 
-在 `HOOKS` 里在 `filesystems` 之前添加`lvm2`。
+在 `HOOKS` 里在 `filesystems` 之前添加 `lvm2`。
 :::
 
 ```bash
 mkinitcpio -P
 exit
 reboot
+```
+
+你将会重启到 Arch Linux 实体机。
+
+## 配置 AUR
+从现在开始需要使用到普通用户，命令前 `#` 代表 root 用户，`$` 代表普通用户。
+
+你通常不应该直接使用 root 用户，在普通用户下可以在命令前加上 `sudo` 来以 root权限运行命令，如 `sudo pacman -S base`。
+
+之后的教程默认为普通用户，需要用到 root 权限的命令会在前面加上 `sudo`。
+
+### GitHub 下载加速
+#### 加速脚本
+```bash
+# pacman -S axel mold pigz pbzip2 lbzip2
+# su [用户名]
+$ nano ~/makepkg_proxy
+```
+
+添加以下内容
+
+```sh
+#!/bin/sh
+domain=$(echo "$2" | cut -f3 -d'/')
+case "$domain" in 
+    "github.com"|"raw.githubusercontent.com")
+        url="https://github.dpik.top/$2"
+        ;;
+    *)
+        url=$2
+        ;;
+esac
+/usr/bin/axel -n 10 -a -o "$1" "$url"
+```
+
+`https://github.dpik.top` 是一个加速 GitHub 下载的网站，更多加速下载网站见[此网站](https://github.akams.cn/)。
+`10`是多线程下载的线程数。
+
+```bash
+$ chmod +x ~/makepkg_proxy
+```
+
+使脚本可运行。
+
+#### 配置 MakePKG
+```bash
+$ sudo nano /etc/makepkg.conf
+```
+
+修改下面的内容
+
+```ini
+DLAGENTS=('file::/usr/bin/curl -gqC - -o %o %u'
+          'ftp::/usr/bin/axel -n 15 -a -o %o %u'
+          'http::/usr/bin/axel -n 15 -a -o %o %u'
+          'https::/home/[用户名]/makepkg_proxy %o %u'
+          'rsync::/usr/bin/rsync --no-motd -z %u %o'
+          'scp::/usr/bin/scp -C %u %o')
+LDFLAGS="... -fuse-ld=mold"
+MAKEFLAGS="-j4"
+OPTIONS=(... !debug !lto)
+COMPRESSGZ=(pigz -c -f -n)
+COMPRESSBZ2=(lbzip2 -c -f)
+COMPRESSZST=(zstd -c -T0 --auto-threads=logical -)
+COMPRESSLZ=(plzip -c -f)
+PKGEXT='.pkg.tar'
+```
+
+#### 配置 Cargo
+```bash
+sudo pacman -S rust
+$ mkdir ~/.cargo
+$ nano ~/.cargo/config.toml
+```
+
+添加以下内容
+
+```toml
+[source.crates-io]
+replace-with = 'mirror'
+
+[source.mirror]
+registry = "sparse+https://mirrors.aliyun.com/crates.io-index/"
+```
+
+#### 安装 Paru
+```bash
+$ git clone https://aur.archlinux.org/paru.git ~/paru
+$ cd ~/paru
+$ makepkg -si
+$ paru -S plzip
+```
+
+## 终端
+Fish Shell 和 Zsh Shell 是两个不同的终端。Fish Shell 更轻量，功能多，但不兼容 POSIX；Zsh Shell 兼容 POSIX。可以同时安装。
+
+### Fish
+#### 安装 Fish 和插件管理器 Fisher
+```bash
+sudo pacman -S fish
+mkdir -p ~/.config/fish/{plugins,conf.d}
+nano ~/.config/fish/conf.d/fisher.fish
+```
+
+添加以下内容
+
+```
+set -g fisher_path ~/.config/fish/plugins
+
+set fish_complete_path $fish_complete_path[1] $fisher_path/completions $fish_complete_path[2..]
+set fish_function_path $fish_function_path[1] $fisher_path/functions $fish_function_path[2..]
+
+for file in $fisher_path/conf.d/*.fish
+    source $file 2>/dev/null
+end
+```
+
+#### 安装 Tide
+```bash
+fish
+curl -sL https://github.dpik.top/https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
+fisher install IlanCosman/tide@v6
+```
+
+#### 将 Fish 用作交互式 Shell
+```bash
+nano ~/.bashrc
+```
+
+追加以下内容
+
+```bash
+if [[ $(ps --no-header --pid=$PPID --format=comm) != "fish" && -z ${BASH_EXECUTION_STRING} && ${SHLVL} == 1 ]]
+then
+	shopt -q login_shell && LOGIN_OPTION='--login' || LOGIN_OPTION=''
+	exec fish $LOGIN_OPTION
+fi
+```
+
+### Zsh + p10k
+#### 安装 Zsh
+```bash
+sudo pacman -S zsh zsh-autosuggestions zsh-syntax-highlighting zsh-completions autojump
+chsh -s /usr/bin/zsh
+vim ~/.zshrc
+```
+
+添加以下内容
+
+```sh
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /usr/share/autojump/autojump.zsh
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+```
+
+:::warning
+你可能需要将在 `~/.bash_profile` 所做的配置复制到 `~/.zsh_profile`，将在 `~/.bashrc` 所做的配置复制到 `~/.zshrc`。
+:::
+
+#### 安装 p10k
+```bash
+curl -fsSL https://github.dpik.top/https://raw.githubusercontent.com/zimfw/install/master/install.zsh | zsh
+echo "zmodule romkatv/powerlevel10k" >> ~/.zimrc
+zimfw install
+```
+
+因为 Zim 框架是从 GitHub 下载插件的，所以速度极慢，多等多试几次就好，或者挂梯子。
+
+## 电源管理
+```bash
+sudo pacman -S tlp acpi
+sudo systemctl enable --now tlp fstrim.timer
+```
+
+### 笔记本电池充电阈值
+```bash
+sudo nano /etc/tlp.conf
+```
+
+修改以下内容
+
+```ini
+START_CHARGE_THRESH_BAT0=60
+STOP_CHARGE_THRESH_BAT0=80
+```
+
+### 笔记本合盖不睡眠
+```bash
+sudo nano /etc/systemd/logind.conf
+```
+
+修改以下内容
+
+```ini
+HandleLidSwitch=ignore
+HandleLidSwitchExternalPower=ignore
+LidSwitchIgnoreInhibited=yes
+```
+
+## Zram内存压缩与 Swappiness 策略优化
+
+Zram 在内存中创建一个压缩块设备作为 Swap 使用。由于 RAM 的速度远快于磁盘，且 Zstd 压缩效率高，这能显著提升系统响应速度，避免系统在内存压力大时卡死。
+
+[Zram: Compressed RAM-based block devices](https://docs.kernel.org/admin-guide/blockdev/zram.html)
+
+**通用配置原则：**
+- **Zram 大小**：建议设为物理内存的 **50%** (`zram-fraction = 0.5`)。
+    - **小内存设备 (<16GB)**：可激进设为 100% (1.0) 以防止内存耗尽。
+    - **大内存设备 (≥32GB)**：50% (0.5) 已绰绰有余，既能提供巨大的交换空间，又保留了足够的物理内存安全红线。
+- **Swappiness**：配合 Zram 时，建议保持默认 **60** 或更高（如 100）。这能让系统积极利用 Zram 压缩冷数据，腾出物理内存给文件缓存。**切勿**在使用 Zram 时将其设为 10。
+
+**1. 安装与配置 Zram**
+安装 zram-generator
+
+```bash
+sudo pacman -S zram-generator
+sudo nano /etc/systemd/zram-generator.conf
+```
+
+添加以下内容（注意：可以解除 4GB 默认限制）：
+
+```ini
+[zram0]
+# 压缩算法，zstd 是性能和压缩率的最佳平衡
+compression-algorithm = zstd
+# Zram 大小：设置为物理内存的百分之多少除以 100
+zram-fraction = 0.5
+# 解除默认的 4096MB (4GB) 限制，否则大内存机器只会分到 4G
+max-zram-size = none
+# 优先级，确保比磁盘 Swap 高（如果有的话）
+swap-priority = 100
+```
+
+启动 Zram
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl start dev-zram0.swap
+```
+
+验证安装
+
+```bash
+zramctl
+```
+
+预期输出示例（DISKSIZE 应接近你的物理内存大小，如 64G）
+```
+# NAME       ALGORITHM DISKSIZE DATA COMPR TOTAL STREAMS MOUNTPOINT
+# /dev/zram0 zstd           32G   4K   64B   20K      16 [SWAP]
+```
+
+如果修改了配置文件（如调整大小）想立即生效且不重启电脑，建议按照以下“彻底重置”步骤操作：
+
+```bash
+sudo systemctl stop dev-zram0.swap
+sudo systemctl stop systemd-zram-setup@zram0.service
+# 如果下面的命令提示模块在使用，请先执行 sudo swapoff /dev/zram0，再执行此命令
+sudo modprobe -r zram
+sudo systemctl daemon-reload
+sudo systemctl start dev-zram0.swap
+```
+
+**2. 调整 Swappiness（确保 Zram 被有效利用）**
+
+查看当前值（默认通常为 60）
+
+```bash
+cat /proc/sys/vm/swappiness
+```
+
+确保其不为 10。如果需要强制指定为 60 或更高（如 100）
+
+```
+sudo nano /etc/sysctl.d/99-swappiness.conf
+```
+
+添加以下内容
+
+```ini
+# Zram 专用优化：保持积极的换页策略
+vm.swappiness = 60
+# 可选：如果希望系统更激进地利用 Zram，可设为 100
+# vm.swappiness = 100
+```
+
+应用配置
+
+```shell
+sudo sysctl --system
 ```
