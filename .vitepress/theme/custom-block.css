@@ -1,5 +1,21 @@
-/* 深浅色卡 */
+@font-face {
+    font-family: 'JetBrainsMonoNerdFontMono';
+    src: url('/JetBrainsMonoNerdFontMono-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'JetBrainsMonoNerdFontMono';
+    src: url('/JetBrainsMonoNerdFontMono-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
 :root {
+    --vp-font-family-mono: 'JetBrainsMonoNerdFontMono', monospace;
+
+    /* 深浅色卡 */
     --custom-block-info-left: #cccccc;
     --custom-block-info-bg: #fafafa;
 
@@ -20,6 +36,10 @@
 
     --custom-block-caution-left: #e0575b;
     --custom-block-caution-bg: #fde4e8;
+}
+
+.vp-doc :where(pre, pre code) {
+    font-family: 'JetBrainsMonoNerdFontMono', monospace;
 }
 
 .dark {

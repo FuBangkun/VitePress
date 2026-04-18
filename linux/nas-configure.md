@@ -24,7 +24,9 @@ paru -S code-server
 nano ~/.config/code-server/config.yaml
 ```
 
-将 `127.0.0.1` 改为 `0.0.0.0`，`password` 参数改成你的密码。
+修改监听地址 `127.0.0.1` 为 `0.0.0.0`。
+
+修改 `password` 为你的密码，或者将 `auth` 改为 `none`，将 `password` 删除，这样不用输入密码。
 
 ```bash
 sudo nano /usr/lib/code-server/lib/vscode/product.json

@@ -1,8 +1,7 @@
-
 import DefaultTheme from 'vitepress/theme';
 import giscusTalk from 'vitepress-plugin-comment-with-giscus';
 import { useData, useRoute, inBrowser } from 'vitepress';
-import './style/custom-block.css'
+import './custom-block.css'
 import '@bprogress/core/css';
 import { BProgress } from '@bprogress/core';
 
