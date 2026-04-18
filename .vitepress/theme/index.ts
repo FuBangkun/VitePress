@@ -1,6 +1,6 @@
 import DefaultTheme from 'vitepress/theme';
 import giscusTalk from 'vitepress-plugin-comment-with-giscus';
-import { useData, useRoute, inBrowser } from 'vitepress';
+import { useData, useRoute, useRouter, inBrowser } from 'vitepress';
 import './custom-block.css'
 import '@bprogress/core/css';
 import { BProgress } from '@bprogress/core';
@@ -11,6 +11,7 @@ export default {
     setup() {
         const { frontmatter } = useData();
         const route = useRoute();
+        const router = useRouter();
 
         giscusTalk({
             repo: 'FuBangkun/VitePress',
@@ -34,12 +35,12 @@ export default {
             })
 
             // 路由切换前 → 开始进度条
-            frontmatter.value.onBeforeRouteChange = () => {
+            router.onBeforeRouteChange = () => {
                 BProgress.start()
             }
 
             // 路由切换完成 → 结束进度条
-            frontmatter.value.onAfterRouteChanged = () => {
+            router.onAfterRouteChange = () => {
                 BProgress.done()
             }
         }
