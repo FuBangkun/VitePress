@@ -4,6 +4,18 @@ export default defineConfig({
   title: "FuBangkun's Website",
   description: "Description",
   lang: "zh-CN",
+  head: [
+    [
+      'link',
+      {
+        rel: 'preload',
+        href: '/JetBrainsMonoNerdFontMono-Regular.woff2',
+        as: 'font',
+        type: 'font/woff2',
+        crossorigin: ''
+      }
+    ]
+  ],
   locales: {
     "/": {
       label: "简体中文",

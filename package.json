@@ -9,7 +9,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.32.1",
   "devDependencies": {
     "vitepress": "2.0.0-alpha.16",
     "vitepress-plugin-comment-with-giscus": "^1.1.15"
