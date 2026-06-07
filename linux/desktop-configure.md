@@ -1,7 +1,7 @@
 # 桌面端配置
 
 ## 安装 Arch Linux
-参考 [Arch Linux 安装](/linux/install)完成安装。
+参考 [Arch Linux 安装](/linux/install) 完成安装。
 
 ## 桌面环境
 推荐安装 [KDE](https://wiki.archlinuxcn.org/wiki/KDE) 或者 [GNOME](https://wiki.archlinuxcn.org/wiki/GNOME)，这两个生态最好。

@@ -1,32 +1,57 @@
 import { defineConfig } from 'vitepress'
+import { InlineLinkPreviewElementTransform } from '@nolebase/vitepress-plugin-inline-link-preview/markdown-it'
+
+const docsSidebarAndNav = [
+  {
+    text: '开发环境',
+    items: [
+      { text: '开发环境配置', link: '/env/env-configure' },
+      { text: '集成开发环境', link: '/env/ide' }
+    ]
+  },
+  {
+    text: 'Git',
+    items: [
+      { text: 'Git', link: '/git/git' },
+      { text: 'GitHub', link: '/git/github' }
+    ]
+  },
+  {
+    text: 'Arch Linux',
+    items: [
+      { text: '介绍', link: '/linux/linux' },
+      { text: 'Arch Linux 安装', link: '/linux/install' },
+      { text: '桌面端配置', link: '/linux/desktop-configure' },
+      { text: '桌面端游戏', link: '/linux/desktop-game' },
+      { text: 'NAS 配置', link: '/linux/nas-configure' }
+    ]
+  }
+]
 
 export default defineConfig({
   title: "FuBangkun's Website",
   description: "Description",
   lang: "zh-CN",
+  
   head: [
     [
       'link',
       {
         rel: 'preload',
-        href: '/JetBrainsMonoNerdFontMono-Regular.woff2',
+        href: '/JetBrainsMono-Regular.woff2',
         as: 'font',
         type: 'font/woff2',
         crossorigin: ''
       }
     ]
   ],
+
   locales: {
-    "/": {
-      label: "简体中文",
-      lang: "zh-CN",
-    },
+    "/": { label: "简体中文", lang: "zh-CN" },
   },
+
   themeConfig: {
-    docFooter: {
-      prev: "上一篇",
-      next: "下一篇",
-    },
+    docFooter: { prev: "上一篇", next: "下一篇" },
     darkModeSwitchLabel: "切换主题",
     lightModeSwitchTitle: "切换到浅色主题",
     darkModeSwitchTitle: "切换到深色主题",
@@ -36,58 +61,9 @@ export default defineConfig({
 
     nav: [
       { text: '首页', link: '/' },
-      {
-        text: '开发环境',
-        items: [
-          { text: '开发环境配置', link: '/env/env-configure' },
-          { text: '集成开发环境', link: '/env/ide' }
-        ]
-      },
-      {
-        text: 'Git',
-        items: [
-          { text: 'Git', link: '/git/git' },
-          { text: 'GitHub', link: '/git/github' }
-        ]
-      },
-      {
-        text: 'Arch Linux',
-        items: [
-          { text: '介绍', link: '/linux/linux' },
-          { text: 'Arch Linux 安装', link: '/linux/install' },
-          { text: '桌面端配置', link: '/linux/desktop-configure' },
-          { text: '桌面端游戏', link: '/linux/desktop-game' },
-          { text: 'NAS 配置', link: '/linux/nas-configure' }
-        ]
-      }
+      ...docsSidebarAndNav
     ],
-
-    sidebar: [
-      {
-        text: '开发环境',
-        items: [
-          { text: '开发环境配置', link: '/env/env-configure' },
-          { text: '集成开发环境', link: '/env/ide' }
-        ]
-      },
-      {
-        text: 'Git',
-        items: [
-          { text: 'Git', link: '/git/git' },
-          { text: 'GitHub', link: '/git/github' }
-        ]
-      },
-      {
-        text: 'Arch Linux',
-        items: [
-          { text: '介绍', link: '/linux/linux' },
-          { text: 'Arch Linux 安装', link: '/linux/install' },
-          { text: '桌面端配置', link: '/linux/desktop-configure' },
-          { text: '桌面端游戏', link: '/linux/desktop-game' },
-          { text: 'NAS 配置', link: '/linux/nas-configure' }
-        ]
-      }
-    ],
+    sidebar: docsSidebarAndNav,
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/fubangkun/vitepress' }
@@ -102,47 +78,10 @@ export default defineConfig({
         locales: {
           root: {
             translations: {
-              button: {
-                buttonText: '搜索',
-                buttonAriaLabel: '搜索'
-              },
+              button: { buttonText: '搜索', buttonAriaLabel: '搜索' },
               modal: {
-                searchBox: {
-                  clearButtonTitle: '清除',
-                  clearButtonAriaLabel: '清除查询',
-                  closeButtonText: '关闭',
-                  closeButtonAriaLabel: '关闭',
-                  placeholderText: '搜索文档',
-                  searchInputLabel: '搜索'
-                },
-                footer: {
-                  selectText: '选择',
-                  selectKeyAriaLabel: '回车键',
-                  navigateText: '导航',
-                  navigateUpKeyAriaLabel: '向上箭头',
-                  navigateDownKeyAriaLabel: '向下箭头',
-                  closeText: '关闭',
-                  closeKeyAriaLabel: 'Esc 键',
-                  poweredByText: '搜索提供商'
-                },
-                errorScreen: {
-                  titleText: '无法获取结果',
-                  helpText: '你可能需要检查网络连接。'
-                },
-                startScreen: {
-                  recentSearchesTitle: '最近',
-                  noRecentSearchesText: '暂无最近搜索',
-                  saveRecentSearchButtonTitle: '保存此搜索',
-                  removeRecentSearchButtonTitle: '从历史记录中移除此搜索',
-                  favoriteSearchesTitle: '收藏',
-                  removeFavoriteSearchButtonTitle: '从收藏中移除此搜索'
-                },
-                noResultsScreen: {
-                  noResultsText: '未找到相关结果',
-                  suggestedQueryText: '尝试搜索',
-                  reportMissingResultsText: '认为此查询应该有结果？',
-                  reportMissingResultsLinkText: '告诉我们。'
-                }
+                searchBox: { placeholderText: '搜索文档' },
+                footer: { selectText: '选择', navigateText: '导航', closeText: '关闭' }
               }
             }
           }
@@ -163,21 +102,39 @@ export default defineConfig({
 
     lastUpdated: {
       text: '最后更新于',
-      formatOptions: {
-        dateStyle: 'full',
-        timeStyle: 'medium'
-      }
+      formatOptions: { dateStyle: 'full', timeStyle: 'medium' }
     },
   },
 
-  markdown: { 
+  markdown: {
     container: {
       tipLabel: '提示',
       warningLabel: '警告',
       dangerLabel: '危险',
       infoLabel: '信息',
       detailsLabel: '详细信息'
+    },
+    config(md) {
+      md.use(InlineLinkPreviewElementTransform)
     }
+  },
+
+  vite: {
+    optimizeDeps: {
+      exclude: [
+        '@nolebase/vitepress-plugin-enhanced-readabilities/client',
+        'vitepress',
+        '@nolebase/ui',
+        '@nolebase/vitepress-plugin-inline-link-preview/client',
+      ],
+    },
+    ssr: {
+      noExternal: [
+        '@nolebase/vitepress-plugin-enhanced-readabilities',
+        '@nolebase/ui',
+        '@nolebase/vitepress-plugin-inline-link-preview',
+      ],
+    },
   },
 
   lastUpdated: true

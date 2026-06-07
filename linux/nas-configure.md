@@ -1,6 +1,6 @@
 # NAS 配置
 ## 安装 Arch Linux
-参考 [Arch Linux 安装](/linux/install)完成安装，你可以参考下面内容微调。
+参考 [Arch Linux 安装](/linux/install) 完成安装，你可以参考下面内容微调。
 
 [基础包安装](/linux/install#基础包安装)中把 `linux-zen`、`linux-zen-headers` 换成 `linux`、`linux-headers` 来减少功耗，不安装 `bluez`、`bluez-utils`、`pipewire`、`pipewire-pulse`、`pipewire-jack` 这几个包，`bluetooth.service` 服务也不用开启了。
 

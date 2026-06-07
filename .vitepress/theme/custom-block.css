@@ -1,21 +1,21 @@
 @font-face {
-    font-family: 'JetBrainsMonoNerdFontMono';
-    src: url('/JetBrainsMonoNerdFontMono-Regular.woff2') format('woff2');
+    font-family: 'JetBrains Mono';
+    src: url('/JetBrainsMono-Regular.woff2') format('woff2');
     font-weight: 400;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'JetBrainsMonoNerdFontMono';
-    src: url('/JetBrainsMonoNerdFontMono-Bold.woff2') format('woff2');
+    font-family: 'JetBrains Mono';
+    src: url('/JetBrainsMono-Bold.woff2') format('woff2');
     font-weight: 700;
     font-style: normal;
     font-display: swap;
 }
 
 :root {
-    --vp-font-family-mono: 'JetBrainsMonoNerdFontMono', monospace;
+    --vp-font-family-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
     /* 深浅色卡 */
     --custom-block-info-left: #cccccc;
@@ -40,9 +40,11 @@
     --custom-block-caution-bg: #fde4e8;
 }
 
-.vp-doc :where(pre, pre code) {
-    font-family: 'JetBrainsMonoNerdFontMono', monospace;
-    font-weight: 400;
+.vp-doc pre,
+.vp-doc code,
+.vp-doc kbd,
+.vp-doc .line {
+    font-family: var(--vp-font-family-mono) !important;
 }
 
 .dark {
@@ -96,7 +98,7 @@
 
 /* 提示容器:边框色、背景色、左侧 */
 .custom-block.tip {
-    /* border-color: var(--custom-block-tip); */ 
+    /* border-color: var(--custom-block-tip); */
     border-left: 5px solid var(--custom-block-tip-left);
     background-color: var(--custom-block-tip-bg);
 }
