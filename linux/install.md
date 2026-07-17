@@ -273,7 +273,7 @@ pacman -Syu archlinuxcn-keyring
 ## 本地化
 ### 安装字体
 ```bash
-pacman -S noto-fonts noto-fonts-cjk noto-fonts-emoji ttf-jetbrains-mono ttf-jetbrains-mono-nerd
+pacman -S noto-fonts noto-fonts-cjk noto-fonts-emoji ttf-jetbrains-mono-nerd
 ```
 
 ### 配置语言
@@ -460,7 +460,7 @@ DLAGENTS=('file::/usr/bin/curl -gqC - -o %o %u'
           'rsync::/usr/bin/rsync --no-motd -z %u %o'
           'scp::/usr/bin/scp -C %u %o')
 LDFLAGS="... -fuse-ld=mold"
-MAKEFLAGS="-j4"
+MAKEFLAGS="-j24"
 OPTIONS=(... !debug !lto)
 COMPRESSGZ=(pigz -c -f -n)
 COMPRESSBZ2=(lbzip2 -c -f)
@@ -571,20 +571,8 @@ zimfw install
 
 ## 电源管理
 ```bash
-sudo pacman -S tlp acpi
-sudo systemctl enable --now tlp fstrim.timer
-```
-
-### 笔记本电池充电阈值
-```bash
-sudo nano /etc/tlp.conf
-```
-
-修改以下内容
-
-```ini
-START_CHARGE_THRESH_BAT0=60
-STOP_CHARGE_THRESH_BAT0=80
+sudo pacman -S acpi
+sudo systemctl enable --now fstrim.timer
 ```
 
 ### 笔记本合盖不睡眠
@@ -624,14 +612,63 @@ sudo nano /etc/systemd/zram-generator.conf
 
 ```ini
 [zram0]
-# 压缩算法，zstd 是性能和压缩率的最佳平衡
-compression-algorithm = zstd
-# Zram 大小：设置为物理内存的百分之多少除以 100
+# 1. 初级算法改用 lz4，确保日常内存交换（Swap I/O）速度达到极致
+compression-algorithm = lz4
+
+# 2. 启用多级压缩：将 zstd 设为次级（重新压缩）算法
+# 语法：算法名称:优先级 (优先级 1-3，数字越小越先用)
+recomp-algorithm = zstd:1
+
+# 3. 内存分配保持 50% (你的 32GB 内存会生成 16GB Zram)
 zram-fraction = 0.5
-# 解除默认的 4096MB (4GB) 限制，否则大内存机器只会分到 4G
-max-zram-size = none
-# 优先级，确保比磁盘 Swap 高（如果有的话）
+
+# 4. 优先级保持高位
 swap-priority = 100
+```
+
+
+创建 Systemd 服务文件
+
+```bash
+sudo nano /etc/systemd/system/zram-recompress.service
+```
+
+添加以下内容
+
+```service
+[Unit]
+Description=Optimize Zram by recompressing idle and huge pages
+After=dev-zram0.swap
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/bash -c 'echo 3600 > /sys/block/zram0/idle'
+ExecStart=/usr/bin/bash -c 'echo "type=idle priority=1" > /sys/block/zram0/recompress'
+ExecStart=/usr/bin/bash -c 'echo "type=huge priority=1" > /sys/block/zram0/recompress'
+
+[Install]
+WantedBy=multi-user.target
+```
+
+创建 Systemd 定时器文件
+
+```
+sudo nano /etc/systemd/system/zram-recompress.timer
+```
+
+添加以下内容
+
+```timer
+[Unit]
+Description=Run Zram Recompression Hourly
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=1h
+AccuracySec=1min
+
+[Install]
+WantedBy=timers.target
 ```
 
 启动 Zram
@@ -639,7 +676,9 @@ swap-priority = 100
 ```bash
 sudo systemctl daemon-reload
 sudo systemctl start dev-zram0.swap
+sudo systemctl enable --now zram-recompress.timer
 ```
+
 
 验证安装
 
@@ -647,10 +686,10 @@ sudo systemctl start dev-zram0.swap
 zramctl
 ```
 
-预期输出示例（DISKSIZE 应接近你的物理内存大小，如 64G）
+预期输出示例（DISKSIZE 应接近你的物理内存大小，如 32G）
 ```
 # NAME       ALGORITHM DISKSIZE DATA COMPR TOTAL STREAMS MOUNTPOINT
-# /dev/zram0 zstd           32G   4K   64B   20K      16 [SWAP]
+# /dev/zram0 zstd           16G   4K   64B   20K      16 [SWAP]
 ```
 
 如果修改了配置文件（如调整大小）想立即生效且不重启电脑，建议按照以下“彻底重置”步骤操作：
@@ -666,14 +705,6 @@ sudo systemctl start dev-zram0.swap
 
 **2. 调整 Swappiness（确保 Zram 被有效利用）**
 
-查看当前值（默认通常为 60）
-
-```bash
-cat /proc/sys/vm/swappiness
-```
-
-确保其不为 10。如果需要强制指定为 60 或更高（如 100）
-
 ```
 sudo nano /etc/sysctl.d/99-swappiness.conf
 ```
@@ -681,10 +712,7 @@ sudo nano /etc/sysctl.d/99-swappiness.conf
 添加以下内容
 
 ```ini
-# Zram 专用优化：保持积极的换页策略
-vm.swappiness = 60
-# 可选：如果希望系统更激进地利用 Zram，可设为 100
-# vm.swappiness = 100
+vm.swappiness = 180
 ```
 
 应用配置
