@@ -2,30 +2,17 @@
 
 本文是速查手册，只列安装命令和关键配置，默认你已有基础使用经验。
 
-## Scoop 安装（Windows 必装）
+## Winget 安装（Windows 必装）
 
-Scoop 是 Windows 下的命令行包管理器。
+Winget 是 Windows 官方的命令行包管理器，Windows 10 1809 及以上的系统一般自带。
 
-1. 打开 PowerShell（建议以管理员身份运行），设置执行策略：
-
-   ```powershell
-   Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
-   ```
-
-2. 安装 Scoop：
+1. 打开 PowerShell 或终端，检查安装：
 
    ```powershell
-   Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
+   winget --version
    ```
 
-3. 添加必要 bucket：
-
-   ```powershell
-   scoop bucket add main
-   scoop bucket add extras
-   scoop bucket add versions
-   scoop bucket add java
-   ```
+有输出即为安装成功；没有则在 Microsoft Store 搜索「应用安装程序（App Installer）」安装。
 
 ## Git
 
@@ -34,7 +21,7 @@ Scoop 是 Windows 下的命令行包管理器。
 #### Windows
 
 ```powershell
-scoop install git
+winget install --id Git.Git -e
 ```
 
 #### Arch Linux
@@ -77,7 +64,7 @@ sudo pacman -S git
 #### Windows
 
 ```powershell
-scoop install gcc
+winget install --id BrechtSanders.WinLibs.MCF.UCRT -e
 ```
 
 #### Arch Linux
@@ -96,14 +83,14 @@ sudo pacman -S base-devel
 
 3. 安装 Clangd 本体
 
-   - Windows
-     ```powershell
-     scoop install clangd
-     ```
-   - Arch Linux
-     ```bash
-     sudo pacman -S clangd
-     ```
+  - Windows
+    ```powershell
+    winget install --id LLVM.LLVM -e
+    ```
+  - Arch Linux
+    ```bash
+    sudo pacman -S clangd
+    ```
 
 4. 开启 `code-runner` 的 `runInTerminal` 设置
 
@@ -131,7 +118,7 @@ gcc --version
 #### Windows
 
 ```powershell
-scoop install uv
+winget install --id astral-sh.uv -e
 uv python install
 ```
 
@@ -168,7 +155,7 @@ mkdir -p ~/.config/uv && printf '[[index]]\nurl = "https://pypi.tuna.tsinghua.ed
 
 3. 开启 `code-runner` 的 `runInTerminal` 设置
 
-4. 命令面板 → `Python：选择解释器` → 选择 Scoop Python
+4. 命令面板 → `Python：选择解释器` → 选择 uv 安装的 Python 解释器
 
 5. 点击 py 文件右上角的 `Run Code` 按钮运行
 
@@ -188,7 +175,7 @@ uv --version
 #### Windows
 
 ```powershell
-scoop install rust
+winget install --id Rustlang.Rustup -e
 ```
 
 #### Arch Linux
@@ -244,8 +231,8 @@ cargo --version
 #### Windows
 
 ```powershell
-scoop install nodejs
-scoop install pnpm
+winget install --id OpenJS.NodeJS -e
+npm install -g pnpm
 ```
 
 #### Arch Linux
@@ -278,7 +265,7 @@ pnpm --version
 #### Windows
 
 ```powershell
-scoop install go
+winget install --id GoLang.Go -e
 ```
 
 #### Arch Linux
@@ -318,7 +305,7 @@ go version
 #### Windows
 
 ```powershell
-scoop install zulu25-jdk
+winget install --id Azul.Zulu.25.JDK -e
 ```
 
 #### Arch Linux
@@ -331,12 +318,12 @@ paru -S zulu-25-bin
 
 #### Windows
 
-在 PowerShell 中运行以下命令：
+在 PowerShell 中运行以下命令（默认安装目录为 `C:\Program Files\Zulu\zulu-25`，如有出入请以实际目录为准）：
 
 ```powershell
-[Environment]::SetEnvironmentVariable("JAVA_HOME", "$env:USERPROFILE\scoop\apps\zulu25-jdk\current", "User")
+[Environment]::SetEnvironmentVariable("JAVA_HOME", "C:\Program Files\Zulu\zulu-25", "User")
 $path = [Environment]::GetEnvironmentVariable("Path", "User")
-[Environment]::SetEnvironmentVariable("Path", "$path;$($env:USERPROFILE)\scoop\apps\zulu25-jdk\current\bin", "User")
+[Environment]::SetEnvironmentVariable("Path", "$path;C:\Program Files\Zulu\zulu-25\bin", "User")
 ```
 
 ### 检查安装
@@ -352,8 +339,10 @@ javac --version
 
 ### Windows
 
+Kotlin 依赖 JDK，请先完成上面的 Java 安装。
+
 ```powershell
-scoop install kotlin
+winget install --id Kotlin.Kotlin -e
 ```
 
 ### Arch Linux
