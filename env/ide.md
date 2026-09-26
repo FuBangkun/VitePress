@@ -19,6 +19,12 @@
 
 下载 [VSCode](https://code.visualstudio.com/Download)，请选择`System Installer`版本。
 
+或使用 winget 安装：
+
+```powershell
+winget install --id Microsoft.VisualStudioCode -e
+```
+
 ### 插件推荐
 
 - **Error Lens**：将编译器报错直接显示在代码行末。
@@ -33,6 +39,18 @@
 - [CLion](https://www.jetbrains.com.cn/clion/)：适用于 C/C++ 的 IDE。
 - [RustRover](https://www.jetbrains.com.cn/rust/)：适用于 Rust 的 IDE。
 
+以上 IDE 也可用 winget 安装：
+
+```powershell
+winget install --id JetBrains.IntelliJIDEA -e            # IntelliJIDEA
+winget install --id JetBrains.PyCharm -e                 # PyCharm
+winget install --id JetBrains.DataGrip -e                # DataGrip
+winget install --id JetBrains.WebStorm -e                # WebStorm
+winget install --id JetBrains.Rider -e                   # Rider
+winget install --id JetBrains.CLion -e                   # Clion
+winget install --id JetBrains.RustRover -e               # RustRover
+```
+
 ## Microsoft Visual Studio
 
 适用于 C/C++ 和 C#/.NET 的 IDE
@@ -40,6 +58,12 @@
 ### 安装
 
 下载 [Visual Studio Installer](https://visualstudio.microsoft.com/zh-hans/vs/)。
+
+或使用 winget 安装 Community 版（免费，个人及小团队可用）：
+
+```powershell
+winget install --id Microsoft.VisualStudio.2026.Community -e
+```
 
 打开 Visual Studio Installer 选择自己需要的 Visual Studio 和工作负载安装。
 

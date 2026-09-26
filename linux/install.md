@@ -477,7 +477,7 @@ nano ~/makepkg_proxy
 domain=$(echo "$2" | cut -f3 -d'/')
 case "$domain" in
     "github.com"|"raw.githubusercontent.com")
-        url="https://github.dpik.top/$2"
+        url="https://gh-proxy.com/$2"
         ;;
     *)
         url=$2
@@ -486,7 +486,7 @@ esac
 /usr/bin/axel -n 10 -a -o "$1" "$url"
 ```
 
-`https://github.dpik.top` 是一个加速 GitHub 下载的网站，更多加速下载网站见[此网站](https://github.akams.cn/)。
+`https://gh-proxy.com` 是一个加速 GitHub 下载的网站，更多加速下载网站见[此网站](https://github.akams.cn/)。
 `10`是多线程下载的线程数。
 
 ```bash
