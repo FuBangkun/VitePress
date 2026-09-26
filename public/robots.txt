@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://fubangkun.dpdns.org/sitemap.xml

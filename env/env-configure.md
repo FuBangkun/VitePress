@@ -1,5 +1,7 @@
 # 开发环境配置
 
+本文是速查手册，只列安装命令和关键配置，默认你已有基础使用经验。
+
 ## Scoop 安装（Windows 必装）
 
 Scoop 是 Windows 下的命令行包管理器。
@@ -30,11 +32,13 @@ Scoop 是 Windows 下的命令行包管理器。
 ### 安装
 
 #### Windows
+
 ```powershell
 scoop install git
 ```
 
 #### Arch Linux
+
 ```bash
 sudo pacman -S git
 ```
@@ -71,11 +75,13 @@ sudo pacman -S git
 ### 安装
 
 #### Windows
+
 ```powershell
 scoop install gcc
 ```
 
 #### Arch Linux
+
 ```bash
 sudo pacman -S base-devel
 ```
@@ -84,11 +90,12 @@ sudo pacman -S base-devel
 
 不使用 VS Code 官方 C/C++ 扩展，推荐使用 Clangd（更强的静态分析）。
 
-1. 安装 [VS Code](/env/ide#microsoft-visual-studio-code)
+1. 安装 [VS Code](/env/ide.md#microsoft-visual-studio-code)
 
 2. 安装扩展：`clangd`、`Code Runner`
 
 3. 安装 Clangd 本体
+
    - Windows
      ```powershell
      scoop install clangd
@@ -108,6 +115,7 @@ sudo pacman -S base-devel
 6. 点击 cpp 文件右上角的 `Run Code` 按钮运行
 
 ### 检查安装
+
 ```bash
 gcc --version
 ```
@@ -121,35 +129,40 @@ gcc --version
 ### 安装
 
 #### Windows
+
 ```powershell
 scoop install uv
 uv python install
 ```
 
 #### Arch Linux
+
 ```bash
 sudo pacman -S uv
 ```
 
-### 配置 UV 镜像源
+### 配置 uv 镜像源
 
 #### Windows
+
 ```powershell
-mkdir -p ~/.config/uv
+mkdir -p $env:APPDATA\uv
 echo @"
-[registries.tuna]
-index = "https://pypi.tuna.tsinghua.edu.cn/simple/"
-"@ > ~/.config/uv/config.toml
+[[index]]
+url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
+default = true
+"@ > $env:APPDATA\uv\uv.toml
 ```
 
 #### Arch Linux
+
 ```bash
-mkdir -p ~/.config/uv && echo -e '[registries.tuna]\nindex = "https://pypi.tuna.tsinghua.edu.cn/simple/"' > ~/.config/uv/config.toml
+mkdir -p ~/.config/uv && printf '[[index]]\nurl = "https://pypi.tuna.tsinghua.edu.cn/simple/"\ndefault = true\n' > ~/.config/uv/uv.toml
 ```
 
 ### 与 VS Code 集成
 
-1. 安装 [VS Code](/env/ide#microsoft-visual-studio-code)
+1. 安装 [VS Code](/env/ide.md#microsoft-visual-studio-code)
 
 2. 安装扩展：`python`、`Code Runner`
 
@@ -160,6 +173,7 @@ mkdir -p ~/.config/uv && echo -e '[registries.tuna]\nindex = "https://pypi.tuna.
 5. 点击 py 文件右上角的 `Run Code` 按钮运行
 
 ### 检查安装
+
 ```bash
 python --version
 uv --version
@@ -172,11 +186,13 @@ uv --version
 ### 安装
 
 #### Windows
+
 ```powershell
 scoop install rust
 ```
 
 #### Arch Linux
+
 ```bash
 sudo pacman -S rust
 ```
@@ -184,6 +200,7 @@ sudo pacman -S rust
 ### 配置 Cargo 镜像
 
 #### Windows
+
 ```powershell
 mkdir -p ~/.cargo
 echo @"
@@ -196,21 +213,14 @@ registry = "sparse+https://mirrors.aliyun.com/crates.io-index/"
 ```
 
 #### Arch Linux
+
 ```bash
 mkdir -p ~/.cargo && echo -e '[source.crates-io]\nreplace-with = "mirror"\n[source.mirror]\nregistry = "sparse+https://mirrors.aliyun.com/crates.io-index/"' > ~/.cargo/config.toml
 ```
 
-### 检查安装
-```bash
-rustc --version
-cargo --version
-```
-
-有输出即为安装成功
-
 ### 与 VS Code 集成
 
-1. 安装 [VS Code](/env/ide#microsoft-visual-studio-code)
+1. 安装 [VS Code](/env/ide.md#microsoft-visual-studio-code)
 
 2. 安装扩展：`rust-analyzer`、`Code Runner`
 
@@ -218,28 +228,41 @@ cargo --version
 
 4. 点击 rs 文件右上角的 `Run Code` 按钮运行
 
+### 检查安装
+
+```bash
+rustc --version
+cargo --version
+```
+
+有输出即为安装成功
+
 ## Node.js
 
 ### 安装
 
 #### Windows
+
 ```powershell
 scoop install nodejs
 scoop install pnpm
 ```
 
 #### Arch Linux
+
 ```bash
 sudo pacman -S nodejs npm pnpm
 ```
 
 ### 配置镜像源
+
 ```bash
 npm config set registry https://registry.npmmirror.com
 pnpm config set registry https://registry.npmmirror.com
 ```
 
 ### 检查安装
+
 ```bash
 node --version
 npm --version
@@ -253,11 +276,13 @@ pnpm --version
 ### 安装
 
 #### Windows
+
 ```powershell
 scoop install go
 ```
 
 #### Arch Linux
+
 ```bash
 sudo pacman -S go
 ```
@@ -265,18 +290,21 @@ sudo pacman -S go
 ### 配置镜像源
 
 #### Windows
+
 ```powershell
 go env -w GO111MODULE=on
 go env -w GOPROXY=https://goproxy.cn,direct
 ```
 
 #### Arch Linux
+
 ```bash
 go env -w GO111MODULE=on
 go env -w GOPROXY=https://goproxy.cn,direct
 ```
 
 ### 检查安装
+
 ```bash
 go version
 ```
@@ -288,11 +316,13 @@ go version
 ### 安装
 
 #### Windows
+
 ```powershell
 scoop install zulu25-jdk
 ```
 
 #### Arch Linux
+
 ```bash
 paru -S zulu-25-bin
 ```
@@ -300,15 +330,17 @@ paru -S zulu-25-bin
 ### 配置环境变量
 
 #### Windows
+
 在 PowerShell 中运行以下命令：
 
 ```powershell
 [Environment]::SetEnvironmentVariable("JAVA_HOME", "$env:USERPROFILE\scoop\apps\zulu25-jdk\current", "User")
 $path = [Environment]::GetEnvironmentVariable("Path", "User")
-[Environment]::SetEnvironmentVariable("Path", "$path;%JAVA_HOME%\bin", "User")
+[Environment]::SetEnvironmentVariable("Path", "$path;$($env:USERPROFILE)\scoop\apps\zulu25-jdk\current\bin", "User")
 ```
 
 ### 检查安装
+
 ```bash
 java --version
 javac --version
@@ -319,16 +351,19 @@ javac --version
 ## Kotlin
 
 ### Windows
+
 ```powershell
 scoop install kotlin
 ```
 
 ### Arch Linux
+
 ```bash
 sudo pacman -S kotlin
 ```
 
 ### 检查安装
+
 ```bash
 kotlin -version
 ```

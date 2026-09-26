@@ -1,19 +1,24 @@
 # NAS 配置
+
 ## 安装 Arch Linux
-参考 [Arch Linux 安装](/linux/install) 完成安装，你可以参考下面内容微调。
 
-[基础包安装](/linux/install#基础包安装)中把 `linux-zen`、`linux-zen-headers` 换成 `linux`、`linux-headers` 来减少功耗，不安装 `bluez`、`bluez-utils`、`pipewire`、`pipewire-pulse`、`pipewire-jack` 这几个包，`bluetooth.service` 服务也不用开启了。
+参考 [Arch Linux 安装](/linux/install.md) 完成安装，你可以参考下面内容微调。
 
-[安装字体](/linux/install#安装字体)中不用安装字体，因为服务器通常只使用 SSH，而 SSH 使用客户端字体。
+[基础包安装](/linux/install.md#基础包安装)中把 `linux-zen`、`linux-zen-headers` 换成 `linux`、`linux-headers` 来减少功耗，不安装
+`bluez`、`bluez-utils`、`pipewire`、`pipewire-pulse`、`pipewire-jack` 这几个包，`bluetooth.service` 服务也不用开启了。
+
+[安装字体](/linux/install.md#安装字体)中不用安装字体，因为服务器通常只使用 SSH，而 SSH 使用客户端字体。
 
 你可以把计算机名称和用户名都设为 `nas` 以便管理。
 
 你可以设置默认启动为多用户文本模式，使用 `sudo systemctl set-default multi-user.target` 命令。
 
-不要用 rFEInd 当引导，NAS 一般不需要多系统，rFEInd 只会拖慢启动速度。
+不要用 rEFInd 当引导，NAS 一般不需要多系统，rEFInd 只会拖慢启动速度。
 
 ## Web 服务
+
 ### Code Server
+
 ```bash
 paru -S code-server
 ```
@@ -57,6 +62,7 @@ sudo systemctl enable --now code-server@nas.service
 随后可以通过 8080 端口访问。
 
 ### Open List
+
 ```bash
 paru -S openlist-bin
 sudo systemctl enable --now openlist.service
@@ -71,6 +77,7 @@ sudo systemctl status openlist
 随后可以通过 5244 端口访问。
 
 ### Samba
+
 ```bash
 sudo pacman -S samba avahi
 paru -S wsdd2
@@ -116,6 +123,7 @@ sudo systemctl enable --now smb.service nmb.service
 随后可以通过 `smb://nas/nas` 访问。
 
 ### 静态主页
+
 ```bash
 sudo mkdir /srv/www
 ```

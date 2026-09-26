@@ -1,43 +1,49 @@
 # 桌面端游戏
-请先[安装显卡驱动](/linux/desktop-configure#显卡驱动和硬件编解码)并[开启 multilib 库](/linux/install#包管理)。
+
+请先[安装显卡驱动](/linux/desktop-configure.md#显卡驱动和硬件编解码)并[开启 multilib 库](/linux/install.md#包管理)。
 
 ## Steam
+
 ```bash
 sudo pacman -S steam
 ```
 
 ## 米哈游
+
 别问我为什么没原神。
 
 安装 Proton
 
 ```bash
 paru -S proton-ge-custom-bin dxvk-bin umu-launcher
-mkdir /etc/modules-load.d/
-touch /etc/modules-load.d/ntsync.conf
-echo "ntsync" > /etc/modules-load.d/ntsync.conf
+sudo mkdir -p /etc/modules-load.d/
+echo "ntsync" | sudo tee /etc/modules-load.d/ntsync.conf
 /usr/share/steam/compatibilitytools.d/proton-ge-custom/files/bin/wine winecfg
 setup_dxvk install
 ```
 
-禁用联网检查
-崩坏：星穹铁道：`echo "0.0.0.0          globaldp-prod-cn01.bhsr.com" >> /etc/hosts`
-绝区零：`echo "0.0.0.0          globaldp-prod-cn01.juequling.com" >> /etc/hosts`
+禁用联网检查（写入 /etc/hosts 需要 root 权限）：
+
+- 崩坏：星穹铁道：`echo "0.0.0.0          globaldp-prod-cn01.bhsr.com" | sudo tee -a /etc/hosts`
+- 绝区零：`echo "0.0.0.0          globaldp-prod-cn01.juequling.com" | sudo tee -a /etc/hosts`
 
 使用我打包的<a href="/GameTools.tar.xz" class="no-inline-link-preview" download>脚本</a>，注意改一下游戏路径。你还可以将脚本设成快捷方式，图标已附带。
 
 ## Waydroid
+
 一款 Wayland 上的安卓模拟器。
 
 ### 安装 Waydroid
+
 ```bash
-pacman -S waydroid archlinuxcn/waydroid-image
+sudo pacman -S waydroid archlinuxcn/waydroid-image
 sudo waydroid init
 sudo systemctl enable --now waydroid-container.service
 waydroid session start
 ```
 
 ### 安装 Arm 翻译层
+
 ```bash
 git clone https://github.dpik.top/https://github.com/casualsnek/waydroid_script.git
 cd waydroid_script
@@ -47,6 +53,7 @@ sudo venv/bin/python3 main.py install libhoudini
 ```
 
 ### 解决网络问题
+
 ```bash
 sudo waydroid shell
 settings put global captive_portal_mode 0
@@ -55,6 +62,7 @@ exit
 ```
 
 ## 游戏模式
+
 ```bash
 sudo pacman -S gamemode lib32-gamemode
 groupadd gamemode
@@ -62,6 +70,7 @@ gpasswd -a [用户名] gamemode
 ```
 
 ### 使用 NVIDIA 独显运行
+
 添加环境变量
 
 ```ini
